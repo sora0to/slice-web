@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ru">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Test Checkout — Slice of Ukraine</title></head>
+<body>
+  <h1>Test Checkout (Prototype)</h1>
+  <p>Нажмите кнопку ниже, чтобы создать тестовую сессию Stripe Checkout (используются данные из сервера).</p>
+
+  <script src="https://js.stripe.com/v3/"></script>
+  <button id="checkoutBtn">Pay (test)</button>
+
+  <script>
+  document.getElementById('checkoutBtn').addEventListener('click', async () => {
+    // пример корзины: имена и цены в USD
+    const cart = [
+      { name: 'Паляниця (sample)', price: 5.00, qty: 2 },
+      { name: 'Горілка (sample)', price: 12.50, qty: 1 }
+    ];
+    try {
+      const resp = await fetch('/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ cart, currency: 'usd' })
+      });
+      const data = await resp.json();
+      if (data.url) {
+        // redirect to Stripe Checkout (hosted page)
+        window.location = data.url;
+      } else {
+        alert('Ошибка: ' + (data.error || JSON.stringify(data)));
+      }
+    } catch (err) {
+      alert('Fetch error: ' + err.message);
+    }
+  });
+  </script>
+</body>
+</html>

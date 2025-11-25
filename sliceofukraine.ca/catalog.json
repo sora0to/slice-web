@@ -1,0 +1,562 @@
+[
+  {
+    "id": 1,
+    "title_uk": "Цукерки Рошен «Червоний мак»",
+    "title_en": "Roshen candies 'Red Poppy'",
+    "price": "12",
+    "img": "https://roshenlviv.com.ua/image/cache/catalog/%20%D0%BC%D0%B0%D0%BA-884x1000.jpg",
+    "desc_uk": "Класичні шоколадні цукерки з начинкою у червоній обгортці.",
+    "desc_en": "Classic chocolate candies with filling in red wrapper.",
+    "category": "sweets"
+  },
+  {
+    "id": 2,
+    "title_uk": "Цукерки Рошен «Сливки-ленивки»",
+    "title_en": "Roshen candies 'Lazy Creams'",
+    "price": "14",
+    "img": "https://roshenlviv.com.ua/image/cache/catalog/%20%D0%BB%D1%94%D0%BD%D1%96%D0%B2%D0%BA%D1%96-884x1000.png",
+    "desc_uk": "Цукерки з молочно-вершковою начинкою у фіолетовій обгортці.",
+    "desc_en": "Candies with milk-cream filling in purple wrapper.",
+    "category": "sweets"
+  },
+  {
+    "id": 3,
+    "title_uk": "Цукерки «Зелена роща»",
+    "title_en": "Candies 'Green Grove'",
+    "price": "4",
+    "img": "https://solodkiyvozik.com.ua/image/cache/catalog/Roshen/leschina-550x550.png",
+    "desc_uk": "Шоколадні цукерки з начинкою у зеленій обгортці.",
+    "desc_en": "Chocolate candies with filling in green wrapper.",
+    "category": "sweets"
+  },
+  {
+    "id": 4,
+    "title_uk": "Цукерки «Коровка»",
+    "title_en": "Candies 'Korovka'",
+    "price": "8",
+    "img": "https://solodkiyvozik.com.ua/image/cache/catalog/Roshen/korovka-550x550.png",
+    "desc_uk": "Класичні іриски з молочним смаком у жовтій обгортці.",
+    "desc_en": "Classic toffee candies with milk flavor in yellow wrapper.",
+    "category": "sweets"
+  },
+  {
+    "id": 5,
+    "title_uk": "Цукерки «Ромашка»",
+    "title_en": "Candies 'Chamomile'",
+    "price": "9",
+    "img": "https://solodkiyvozik.com.ua/image/cache/catalog/Roshen/romashka-550x550.png",
+    "desc_uk": "Цукерки з начинкою у біло-фіолетовій обгортці.",
+    "desc_en": "Candies with filling in white-purple wrapper.",
+    "category": "sweets"
+  },
+  {
+    "id": 6,
+    "title_uk": "Цукерки «М’ятна»",
+    "title_en": "Candies 'Mint'",
+    "price": "",
+    "img": "https://happypen-photos.s3.eu-north-1.amazonaws.com/7236/konfety-myatnye-1kg-roshen0",
+    "desc_uk": "Цукерки з м’ятною начинкою у біло-зеленій обгортці.",
+    "desc_en": "Candies with mint filling in white-green wrapper.",
+    "category": "sweets"
+  },
+  {
+    "id": 7,
+    "title_uk": "Цукерки з фруктовою начинкою (зелені)",
+    "title_en": "Fruit candies (green)",
+    "price": "",
+    "img": "https://images.prom.ua/3457887441_karamelni-tsukerki-roshen.jpg",
+    "desc_uk": "Фруктові цукерки у зелених обгортках.",
+    "desc_en": "Fruit candies in green wrappers.",
+    "category": "sweets"
+  },
+  {
+    "id": 8,
+    "title_uk": "Цукерки з карамеллю (біло-зелені)",
+    "title_en": "Caramel candies (white-green)",
+    "price": "",
+    "img": "https://images.prom.ua/3457887441_karamelni-tsukerki-roshen.jpg",
+    "desc_uk": "Карамельні цукерки у біло-зелених обгортках.",
+    "desc_en": "Caramel candies in white-green wrappers.",
+    "category": "sweets"
+  },
+  {
+    "id": 9,
+    "title_uk": "Квас світлий",
+    "title_en": "White Kvas",
+    "price": "",
+    "img": "https://api.nashkraj.com.ua/img/215656.jpg",
+    "desc_uk": "Освітлений квас у золотистій банці.",
+    "desc_en": "Light kvass in golden can.",
+    "category": "drinks"
+  },
+  {
+    "id": 10,
+    "title_uk": "Квас темний",
+    "title_en": "Dark Kvas",
+    "price": "",
+    "img": "https://aquamarket.ua/76040-small_default/kvas-taras-15-l-chernyj.jpg",
+    "desc_uk": "Темний квас у чорній банці.",
+    "desc_en": "Dark kvass in black can.",
+    "category": "drinks"
+  },
+  {
+    "id": 11,
+    "title_uk": "Coca-Cola Classic",
+    "title_en": "Coca-Cola Classic",
+    "price": "",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgdBHTOjbMe-sh0rS10qv5-QxlLupEs7NjgA&s",
+    "desc_uk": "Класичний газований напій Coca-Cola у червоній банці.",
+    "desc_en": "Classic carbonated Coca-Cola in red can.",
+    "category": "drinks"
+  },
+  {
+    "id": 12,
+    "title_uk": "Fanta Лимон",
+    "title_en": "Fanta Lemon",
+    "price": "",
+    "img": "https://content.okwine.ua/files/product/63925b14a4205c0036761378/350x470/07afa53b-1ff0-446d-bb50-2e847673aadb.full_napij-fanta-limon-pet-075l.jpg",
+    "desc_uk": "Fanta зі смаком лимону у жовтій банці.",
+    "desc_en": "Lemon flavored Fanta in yellow can.",
+    "category": "drinks"
+  },
+  {
+    "id": 13,
+    "title_uk": "Fanta Виноград",
+    "title_en": "Fanta Grape",
+    "price": "",
+    "img": "https://cdn.ime.by/UserFiles/images/catalog/Goods/1203/02171203/norm/02171203.n_1.png?s=1000x1000",
+    "desc_uk": "Fanta зі смаком винограду у фіолетовій банці.",
+    "desc_en": "Grape flavored Fanta in purple can.",
+    "category": "drinks"
+  },
+  {
+    "id": 14,
+    "title_uk": "Боржомі",
+    "title_en": "Borjomi",
+    "price": "",
+    "img": "https://eurofood.ca/wp-content/uploads/2020/04/Borjomi-glass.jpg",
+    "desc_uk": "Мінеральна вода Borjomi у банці.",
+    "desc_en": "Mineral water Borjomi in a can.",
+    "category": "drinks"
+  },
+  {
+    "id": 15,
+    "title_uk": "Napój Original (рожевий)",
+    "title_en": "Napój Original (pink)",
+    "price": "",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReCrsLjFBaDh-Y0_I2k_dg75os6qYvSHQR-Q&s",
+    "desc_uk": "Газований напій у рожевій банці (видно зліва на нижній полиці).",
+    "desc_en": "Carbonated drink in pink can (seen left on bottom shelf).",
+    "category": "drinks"
+  },
+  {
+    "id": 16,
+    "title_uk": "Napój Original (помаранчевий)",
+    "title_en": "Napój Original (orange)",
+    "price": "",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuIuswp_3dxR0T8N_K0K6c3IS-oH9oiSCJSA&s",
+    "desc_uk": "Газований напій у помаранчевій банці (видно справа на нижній полиці).",
+    "desc_en": "Carbonated drink in orange can (seen right on bottom shelf).",
+    "category": "drinks"
+  },
+  {
+    "id": 17,
+    "title_uk": "Цукерки у фіолетовій обгортці (шоколадні)",
+    "title_en": "Chocolate candies (purple wrapper)",
+    "price": "",
+    "img": "https://roshenlviv.com.ua/image/cache/catalog/%20%D0%BA%D1%80%D0%BE%D0%BA%D0%B5%D1%80%20%D1%84%D1%96%D0%BE%D0%BB-328x370.png",
+    "desc_uk": "Шоколадні цукерки у фіолетових обгортках.",
+    "desc_en": "Chocolate candies in purple wrappers.",
+    "category": "sweets"
+  },
+  {
+    "id": 18,
+    "title_uk": "Цукерки у жовтій обгортці",
+    "title_en": "Candies (yellow wrapper)",
+    "price": "",
+    "img": "https://ssdp.com.ua/uploads/products/big/1584191691_cd6ab94816faae5ddc1c7d256e8ca935.png",
+    "desc_uk": "Карамельні цукерки з молочним смаком у жовтих обгортках.",
+    "desc_en": "Milk caramel candies in yellow wrappers.",
+    "category": "sweets"
+  },
+  {
+    "id": 19,
+    "title_uk": "Цукерки у зеленій обгортці",
+    "title_en": "Candies (green wrapper)",
+    "price": "",
+    "img": "https://happypen-photos.s3.eu-north-1.amazonaws.com/363322/conversions/konfety-monblan-s-droblennym-lesnym-orekhom-1kg-roshen0-middle-size.jpg",
+    "desc_uk": "Шоколадні цукерки з начинкою у зелених обгортках.",
+    "desc_en": "Chocolate candies with filling in green wrappers.",
+    "category": "sweets"
+  },
+  {
+    "id": 20,
+    "title_uk": "Цукерки у блакитній обгортці",
+    "title_en": "Candies (blue wrapper)",
+    "price": "",
+    "img": "https://st5.depositphotos.com/16122460/68467/i/450/depositphotos_684670070-stock-photo-tasty-candy-light-blue-wrapper.jpg",
+    "desc_uk": "Цукерки з молочною начинкою у блакитній обгортці.",
+    "desc_en": "Candies with milk filling in blue wrappers.",
+    "category": "sweets"
+  },
+  {
+    "id": 21,
+    "title_uk": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6KjUJ_wTyJnN5HfiSPDvi5wcsQGvyEo4oJQ&s",
+    "title_en": "Candies in black-red wrappers",
+    "price": "",
+    "img": "photo_2025-08-29_18-48-14 (2).jpg",
+    "desc_uk": "Шоколадні цукерки у чорній обгортці з червоним візерунком.",
+    "desc_en": "Chocolate candies in black-red wrappers.",
+    "category": "sweets"
+  },
+  {
+    "id": 22,
+    "title_uk": "Цукерки 'Золота Лілія'",
+    "title_en": "Candies 'Golden Lily'",
+    "price": "",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGiA3gKb9CuAad5XCfB5umKQFa3MYq6PpEYA&s",
+    "desc_uk": "Популярні карамельні цукерки у золотисто-зеленій обгортці.",
+    "desc_en": "Famous caramel candies in gold-green wrappers.",
+    "category": "sweets"
+  },
+  {
+    "id": 23,
+    "title_uk": "Цукерки у синій обгортці",
+    "title_en": "Candies in blue wrappers",
+    "price": "",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmdDHKloXEYr2eXauiehwGuSYjCV1a7W2ahQ&s",
+    "desc_uk": "Цукерки з ніжною молочною начинкою у синій обгортці.",
+    "desc_en": "Candies with creamy filling in blue wrappers.",
+    "category": "sweets"
+  },
+  {
+    "id": 24,
+    "title_uk": "Цукерки у зеленій обгортці",
+    "title_en": "Candies in green wrappers",
+    "price": "",
+    "img": "https://happypen-photos.s3.eu-north-1.amazonaws.com/363322/conversions/konfety-monblan-s-droblennym-lesnym-orekhom-1kg-roshen0-middle-size.jpg",
+    "desc_uk": "Фруктові карамельки з різними смаками у зеленій обгортці.",
+    "desc_en": "Fruit candies with assorted flavors in green wrappers.",
+    "category": "sweets"
+  },
+  {
+    "id": 25,
+    "title_uk": "Живчик яблучний, 2 л",
+    "title_en": "Zhivchyk apple soda, 2L",
+    "price": "",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0jhTcpTJvQtXnvdFYt5f6jSD1ZZFM5t8vXw&s",
+    "desc_uk": "Солодкий газований напій зі смаком яблука. Пляшка 2 л.",
+    "desc_en": "Sweet carbonated apple-flavored drink. Bottle 2L.",
+    "category": "drinks"
+  },
+  {
+    "id": 26,
+    "title_uk": "Живчик яблучний, 0.5 л",
+    "title_en": "Zhivchyk apple soda, 0.5L",
+    "price": "",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0jhTcpTJvQtXnvdFYt5f6jSD1ZZFM5t8vXw&s",
+    "desc_uk": "Солодкий газований яблучний напій у пляшці 0.5 л.",
+    "desc_en": "Sweet apple-flavored soda in 0.5L bottle.",
+    "category": "drinks"
+  },
+  {
+    "id": 27,
+    "title_uk": "Напій Оболонь Живчик у банці",
+    "title_en": "Zhivchyk canned soda",
+    "price": "",
+    "img": "https://img.auchan.ua/rx/q_90,ofmt_webp/auchan.ua/media/catalog/product/5/0/50b4d99a-3c31-6fd8-609c-c821c3a20879.jpg",
+    "desc_uk": "Газований яблучний напій у жерстяній банці 0.5 л.",
+    "desc_en": "Carbonated apple soda in 0.5L can.",
+    "category": "drinks"
+  },
+  {
+    "id": 28,
+    "title_uk": "Сік Sandora апельсиновий, 1 л",
+    "title_en": "Sandora orange juice, 1L",
+    "price": "",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIDErnm2QWfRNKwzOCETYX4rLGGh0gnUx4Ow&s",
+    "desc_uk": "Освіжаючий сік зі смаком апельсина, пакування 1 л.",
+    "desc_en": "Refreshing orange juice, 1L pack.",
+    "category": "drinks"
+  },
+  {
+    "id": 29,
+    "title_uk": "Приправа Exclusive Оregano",
+    "title_en": "Exclusive Oregano spice",
+    "price": "",
+    "img": "https://content1.rozetka.com.ua/goods/images/big_tile/465666349.jpg",
+    "desc_uk": "Сушене орегано для приготування страв і салатів.",
+    "desc_en": "Dried oregano for cooking and salads.",
+    "category": "spices"
+  },
+  {
+    "id": 30,
+    "title_uk": "Приправа Exclusive Розмарин",
+    "title_en": "Exclusive Rosemary spice",
+    "price": "",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSORwAgSFUXUEawGKM-So1vg3AB8kEQSQJ14g&s",
+    "desc_uk": "Сушений розмарин для ароматизації м'ясних та овочевих страв.",
+    "desc_en": "Dried rosemary for meat and vegetable dishes.",
+    "category": "spices"
+  },
+  {
+    "id": 31,
+    "title_uk": "Приправа Exclusive Кінза",
+    "title_en": "Exclusive Coriander spice",
+    "price": "",
+    "img": "https://images.prom.ua/4866781600_w640_h640_priprava-exclusive-prof.jpg",
+    "desc_uk": "Сушене насіння кінзи для кулінарії.",
+    "desc_en": "Dried coriander seeds for cooking.",
+    "category": "spices"
+  },
+  {
+    "id": 32,
+    "title_uk": "Приправа Exclusive Трави Провансу",
+    "title_en": "Exclusive Herbes de Provence",
+    "price": "",
+    "img": "https://content1.rozetka.com.ua/goods/images/big/572584438.jpg",
+    "desc_uk": "Ароматна суміш пряних трав з Провансу.",
+    "desc_en": "Aromatic mix of Provencal herbs.",
+    "category": "spices"
+  },
+  {
+    "id": 33,
+    "title_uk": "Стерилізовані парові приправи Кмин",
+    "title_en": "Steamed spice Caraway",
+    "price": "",
+    "img": "https://naturalspices.com.ua/wp-content/uploads/2023/05/riba.jpg",
+    "desc_uk": "Стерилізоване насіння кмину для кулінарії.",
+    "desc_en": "Steamed caraway seeds for cooking.",
+    "category": "spices"
+  },
+  {
+    "id": 34,
+    "title_uk": "Стерилізовані парові приправи Зіра",
+    "title_en": "Steamed spice Cumin",
+    "price": "",
+    "img": "https://naturalspices.com.ua/wp-content/uploads/2023/05/zyra.jpg",
+    "desc_uk": "Стерилізоване насіння зіри (кумін) для кулінарії.",
+    "desc_en": "Steamed cumin seeds for cooking.",
+    "category": "spices"
+  },
+  {
+    "id": 35,
+    "title_uk": "Суміш приправ для курки",
+    "title_en": "Spice mix for chicken",
+    "price": "",
+    "img": "https://images.prom.ua/5886542001_w1280_h640_5886542001.jpg",
+    "desc_uk": "Суміш спецій для запікання та смаження курки.",
+    "desc_en": "Spice mix for roasting and frying chicken.",
+    "category": "spices"
+  },
+  {
+    "id": 36,
+    "title_uk": "Суміш приправ до м'яса",
+    "title_en": "Spice mix for meat",
+    "price": "",
+    "img": "https://images.prom.ua/5840509780_w1280_h640_5840509780.jpg",
+    "desc_uk": "Суміш спецій для м’ясних страв.",
+    "desc_en": "Spice mix for meat dishes.",
+    "category": "spices"
+  },
+  {
+    "id": 37,
+    "title_uk": "Приправа Papryka Prymat",
+    "title_en": "Prymat Paprika Spice",
+    "price": "",
+    "img": "https://img.auchan.ua/rx/q_90,ofmt_webp/auchan.ua/media/catalog/product/b/d/bd0e1b119991afa70fc4cea339a8adad8962f3239d88cb486cfe5882cec030f6.jpeg",
+    "desc_uk": "Паприка мелена від бренду Prymat, використовується для м'ясних і овочевих страв.",
+    "desc_en": "Ground paprika from Prymat, used for meat and vegetable dishes.",
+    "category": "spices"
+  },
+  {
+    "id": 38,
+    "title_uk": "Стерилізовані парові прянощі (перець чилі, паприка)",
+    "title_en": "Sterilized steam spices (chili pepper, paprika)",
+    "price": "",
+    "img": "https://kozub.com.ua/image/cache/catalog/Products-NEW/920102-1200x1654.jpg",
+    "desc_uk": "Суміш прянощів у стерилізованій упаковці для збереження аромату.",
+    "desc_en": "Spice mix in sterilized packaging to preserve aroma.",
+    "category": "spices"
+  },
+  {
+    "id": 39,
+    "title_uk": "Приправа EKO Хмелі-Сунелі, 15 г",
+    "title_en": "EKO Khmeli-Suneli spice mix, 15g",
+    "price": "",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCRdBrAhLQr1tRIaDGPh6Uqe4icEktNMIZDg&s",
+    "desc_uk": "Грузинська приправа з трав і спецій для м'ясних страв та супів.",
+    "desc_en": "Georgian spice mix of herbs and spices for meat dishes and soups.",
+    "category": "spices"
+  },
+  {
+    "id": 40,
+    "title_uk": "Приправа EKO до плову, 20 г",
+    "title_en": "EKO Spice for Pilaf, 20g",
+    "price": "",
+    "img": "https://content1.rozetka.com.ua/goods/images/big/546720721.jpg",
+    "desc_uk": "Суміш спецій для приготування традиційного плову.",
+    "desc_en": "Spice mix for cooking traditional pilaf.",
+    "category": "spices"
+  },
+  {
+    "id": 41,
+    "title_uk": "Желатин харчовий Galaretka",
+    "title_en": "Food Gelatin Galaretka",
+    "price": "",
+    "img": "https://images.prom.ua/6656399406_w1280_h640_6656399406.jpg",
+    "desc_uk": "Желатин для приготування десертів та холодців.",
+    "desc_en": "Gelatin for preparing desserts and aspics.",
+    "category": "baking"
+  },
+  {
+    "id": 42,
+    "title_uk": "Сода харчова",
+    "title_en": "Baking soda",
+    "price": "",
+    "img": "https://tsvetaromat.com/img/prod/Dobavki/2023/soda-k-500-ts-new.png",
+    "desc_uk": "Харчова сода для випічки та кулінарії.",
+    "desc_en": "Baking soda for pastries and cooking.",
+    "category": "baking"
+  },
+  {
+    "id": 43,
+    "title_uk": "Сік Sandora яблучний, 1 л",
+    "title_en": "Sandora Apple Juice, 1L",
+    "price": "",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeZCsm-w6BskYhXtZoO4EWr_NMre7hh37kfg&s",
+    "desc_uk": "Яблучний сік без консервантів у тетра-паку.",
+    "desc_en": "Apple juice without preservatives in tetra pack.",
+    "category": "drinks"
+  },
+  {
+    "id": 44,
+    "title_uk": "Сік Sandora вишневий, 1 л",
+    "title_en": "Sandora Cherry Juice, 1L",
+    "price": "",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTA4guSDXNaFCYO0MaE6NaB7s5t_CGIfKV6xA&s",
+    "desc_uk": "Вишневий сік, насичений смак і аромат.",
+    "desc_en": "Cherry juice, rich taste and aroma.",
+    "category": "drinks"
+  },
+  {
+    "id": 45,
+    "title_uk": "Сік Tymbark чорна смородина, 1 л",
+    "title_en": "Tymbark Blackcurrant Juice, 1L",
+    "price": "",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmdfmBio-vF2RyyDSwL_kgrcwUS4sFZ_zUcg&s",
+    "desc_uk": "Сік зі смородини Tymbark, освіжаючий смак.",
+    "desc_en": "Blackcurrant juice Tymbark, refreshing taste.",
+    "category": "drinks"
+  },
+  {
+    "id": 46,
+    "title_uk": "Сік Наш Сік томатний, 1 л",
+    "title_en": "Nash Sik Tomato Juice, 1L",
+    "price": "",
+    "img": "https://markos.com.ua/Media/shop-12165/%D0%9F%D1%80%D0%BE%D0%B4%D1%83%D0%BA%D1%82%D0%B8/photo_2025-07-29_10-43-34.jpg",
+    "desc_uk": "Томатний сік українського виробництва.",
+    "desc_en": "Ukrainian-made tomato juice.",
+    "category": "drinks"
+  },
+  {
+    "id": 47,
+    "title_uk": "Сік Sandora апельсиновий, 1 л",
+    "title_en": "Sandora Orange Juice, 1L",
+    "price": "",
+    "img": "https://roll-merefa.com.ua/wp-content/uploads/2025/06/sandora-apelsyn-900kh600.jpg",
+    "desc_uk": "Освіжаючий апельсиновий сік у тетра-паку.",
+    "desc_en": "Refreshing orange juice in tetra pack.",
+    "category": "drinks"
+  },
+  {
+    "id": 48,
+    "title_uk": "Сік Sandora виноградний, 1 л",
+    "title_en": "Sandora Grape Juice, 1L",
+    "price": "",
+    "img": "https://www.korzyna.com/media/catalog/product/f/i/file_22_21.jpg?width=600&height=744&image-type=image",
+    "desc_uk": "Натуральний виноградний сік без консервантів.",
+    "desc_en": "Natural grape juice without preservatives.",
+    "category": "drinks"
+  },
+  {
+    "id": 49,
+    "title_uk": "Сік Sandora персиковий, 1 л",
+    "title_en": "Sandora Peach Juice, 1L",
+    "price": "",
+    "img": "https://img.fozzyshop.com.ua/24933-large_default/nektar-sandora-persikovyj.jpg",
+    "desc_uk": "Персиковий нектар із ніжним смаком.",
+    "desc_en": "Peach nectar with a delicate taste.",
+    "category": "drinks"
+  },
+  {
+    "id": 50,
+    "title_uk": "Сік Sandora мультивітамін, 1 л",
+    "title_en": "Sandora Multivitamin Juice, 1L",
+    "price": "",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTCUMiqivGd4f4GLvn0sCJF2E2agoRkf_0lw&s",
+    "desc_uk": "Мультивітамінний напій із суміші фруктових соків.",
+    "desc_en": "Multivitamin drink from a mix of fruit juices.",
+    "category": "drinks"
+  },
+  {
+    "id": 51,
+    "title_uk": "Сік Наш Сік яблучний, 1 л",
+    "title_en": "Nash Sik Apple Juice, 1L",
+    "price": "",
+    "img": "https://img3.zakaz.ua/59737a76979149bcb80b8e81cc6d3e76/1712561200-s350x350.jpg",
+    "desc_uk": "Яблучний сік українського виробника.",
+    "desc_en": "Apple juice from Ukrainian producer.",
+    "category": "drinks"
+  },
+  {
+    "id": 52,
+    "title_uk": "Сік Наш Сік мультивітамін, 1 л",
+    "title_en": "Nash Sik Multivitamin Juice, 1L",
+    "price": "",
+    "img": "https://icf.listex.info/med/c6515bb1-6e5f-dd92-7adb-f95c9f6c277e.jpg",
+    "desc_uk": "Мультивітамінний сік у зручній упаковці.",
+    "desc_en": "Multivitamin juice in convenient packaging.",
+    "category": "drinks"
+  },
+  {
+    "id": 53,
+    "title_uk": "Сік Tymbark яблучний, 1 л",
+    "title_en": "Tymbark Apple Juice, 1L",
+    "price": "",
+    "img": "https://icf.listex.info/med/6d2d4e1e-f93c-6abd-a939-c795578f166a.jpg",
+    "desc_uk": "Класичний яблучний сік Tymbark.",
+    "desc_en": "Classic Tymbark apple juice.",
+    "category": "drinks"
+  },
+  {
+    "id": 54,
+    "title_uk": "Сік Tymbark апельсиновий, 1 л",
+    "title_en": "Tymbark Orange Juice, 1L",
+    "price": "",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfCCJUBMy2qpQhpuFI3yJhGpnkIMxtuaO3Iw&s",
+    "desc_uk": "Апельсиновий сік Tymbark із насиченим смаком.",
+    "desc_en": "Tymbark orange juice with rich flavor.",
+    "category": "drinks"
+  },
+  {
+    "id": 55,
+    "title_uk": "Сік Tymbark персиковий, 1 л",
+    "title_en": "Tymbark Peach Juice, 1L",
+    "price": "",
+    "img": "https://casamega.md/images/detailed/92/23525211.jpg",
+    "desc_uk": "Персиковий нектар Tymbark для дітей та дорослих.",
+    "desc_en": "Peach nectar Tymbark for kids and adults.",
+    "category": "drinks"
+  },
+  {
+    "id": 56,
+    "title_uk": "Сік Tymbark мультивітамін, 1 л",
+    "title_en": "Tymbark Multivitamin Juice, 1L",
+    "price": "",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxbAogLA5Qinl8UErJ1K1WlJ-bwISQlEnmaQ&s",
+    "desc_uk": "Мультивітамінний сік із суміші фруктів Tymbark.",
+    "desc_en": "Multivitamin juice from a mix of fruits by Tymbark.",
+    "category": "drinks"
+  }
+]
