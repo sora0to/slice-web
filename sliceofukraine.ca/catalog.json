@@ -558,5 +558,16 @@
     "desc_uk": "Мультивітамінний сік із суміші фруктів Tymbark.",
     "desc_en": "Multivitamin juice from a mix of fruits by Tymbark.",
     "category": "drinks"
+  },
+  {
+    "id": 57,
+    "title_uk": "afasfafd",
+    "title_en": "",
+    "price": "100",
+    "sale_price": "20",
+    "img": "",
+    "desc_uk": "",
+    "desc_en": "",
+    "category": ""
   }
 ]

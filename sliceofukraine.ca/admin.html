@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Admin — Catalog</title>
+    <link rel="stylesheet" href="css/admin.css" />
+    <style>
+      /* Простая мобильная вёрстка */
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #f7f7f7;
+      }
+      .wrap {
+        max-width: 980px;
+        margin: 12px auto;
+        padding: 12px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+      }
+      h1 {
+        font-size: 20px;
+        margin: 0 0 12px;
+      }
+      .row {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .col {
+        flex: 1;
+        min-width: 220px;
+      }
+      input,
+      textarea,
+      select {
+        width: 100%;
+        padding: 8px;
+        margin: 6px 0;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+      }
+      button {
+        padding: 10px 12px;
+        border: 0;
+        border-radius: 8px;
+        background: #007bff;
+        color: #fff;
+      }
+      .list {
+        margin-top: 16px;
+      }
+      .item {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        padding: 8px;
+        border-bottom: 1px solid #eee;
+      }
+      .item img {
+        width: 64px;
+        height: 64px;
+        object-fit: cover;
+        border-radius: 6px;
+      }
+      .controls button {
+        margin-right: 6px;
+      }
+      .small {
+        font-size: 13px;
+        color: #666;
+      }
+      .danger {
+        background: #e53935;
+      }
+      .success {
+        background: #43a047;
+      }
+      .login {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      @media (max-width: 520px) {
+        .row {
+          flex-direction: column;
+        }
+        .item {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .item img {
+          width: 100%;
+          height: 160px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>Админ-панель — Каталог</h1>
+
+      <div id="loginBox">
+        <div class="login">
+          <input
+            id="pass"
+            type="password"
+            placeholder="Пароль администратора"
+          />
+          <button id="loginBtn">Войти</button>
+        </div>
+        <div class="small">Пароль хранится на сервере (env ADMIN_PASS).</div>
+      </div>
+
+      <div id="adminUI" style="display: none">
+        <section>
+          <h2>Добавить / Редактировать товар</h2>
+          <form id="productForm">
+            <input type="hidden" id="prodId" />
+            <div class="row">
+              <div class="col">
+                <input id="title_uk" placeholder="Название (укр)" />
+                <input id="title_en" placeholder="Title (en)" />
+                <input id="category" placeholder="Категория" />
+                <input id="price" placeholder="Цена (например 12)" />
+                <input
+                  id="sale_price"
+                  placeholder="Скидочная цена (опционально)"
+                />
+              </div>
+              <div class="col">
+                <input
+                  id="imgUrl"
+                  placeholder="URL изображения (если не загружаете файл)"
+                />
+                <div style="margin-top: 6px">
+                  <input id="imgFile" type="file" accept="image/*" />
+                </div>
+                <textarea id="desc_uk" placeholder="Описание (укр)"></textarea>
+                <textarea
+                  id="desc_en"
+                  placeholder="Description (en)"
+                ></textarea>
+              </div>
+            </div>
+            <div style="margin-top: 8px">
+              <button id="saveBtn" type="button">Сохранить</button>
+              <button id="clearBtn" type="button" style="background: #6c757d">
+                Очистить
+              </button>
+              <button
+                id="logoutBtn"
+                type="button"
+                class="danger"
+                style="float: right"
+              >
+                Выйти
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <section class="list">
+          <h2>Список товаров</h2>
+          <div id="products"></div>
+        </section>
+      </div>
+    </div>
+
+    <script>
+      const API = "/api";
+      let isLogged = false;
+
+      document.getElementById("loginBtn").addEventListener("click", login);
+      document.getElementById("saveBtn").addEventListener("click", saveProduct);
+      document.getElementById("clearBtn").addEventListener("click", clearForm);
+      document.getElementById("logoutBtn").addEventListener("click", logout);
+
+      async function login() {
+        const pass = document.getElementById("pass").value;
+        const res = await fetch("/admin/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ password: pass }),
+        });
+        if (res.ok) {
+          isLogged = true;
+          document.getElementById("loginBox").style.display = "none";
+          document.getElementById("adminUI").style.display = "block";
+          loadProducts();
+        } else {
+          alert("Неверный пароль");
+        }
+      }
+
+      async function logout() {
+        await fetch("/admin/logout", {
+          method: "POST",
+          credentials: "include",
+        });
+        location.reload();
+      }
+
+      async function loadProducts() {
+        const res = await fetch(API + "/products", { credentials: "include" });
+        const arr = await res.json();
+        renderList(arr);
+      }
+
+      function renderList(items) {
+        const root = document.getElementById("products");
+        root.innerHTML = "";
+        items.forEach((p) => {
+          const div = document.createElement("div");
+          div.className = "item";
+          div.innerHTML = `
+      <img src="${p.img || ""}" onerror="this.src='img/placeholder.png'"/>
+      <div style="flex:1">
+        <strong>${p.title_uk || p.title_en}</strong>
+        <div class="small">${p.category || ""}</div>
+        <div style="margin-top:6px">
+          ${
+            p.sale_price
+              ? `<span style="color:#e53935;font-weight:700">${p.sale_price}</span> <span class="small" style="text-decoration:line-through;margin-left:8px">${p.price}</span>`
+              : `<span>${p.price}</span>`
+          }
+        </div>
+      </div>
+      <div class="controls">
+        <button onclick="edit(${p.id})">Редактировать</button>
+        <button onclick="del(${
+          p.id
+        })" style="background:#e53935">Удалить</button>
+      </div>
+    `;
+          root.appendChild(div);
+        });
+      }
+
+      function clearForm() {
+        [
+          "prodId",
+          "title_uk",
+          "title_en",
+          "price",
+          "sale_price",
+          "imgUrl",
+          "desc_uk",
+          "desc_en",
+          "category",
+        ].forEach((id) => (document.getElementById(id).value = ""));
+        document.getElementById("imgFile").value = "";
+      }
+
+      async function saveProduct() {
+        const id = document.getElementById("prodId").value;
+        const formData = new FormData();
+        formData.append("title_uk", document.getElementById("title_uk").value);
+        formData.append("title_en", document.getElementById("title_en").value);
+        formData.append("price", document.getElementById("price").value);
+        formData.append(
+          "sale_price",
+          document.getElementById("sale_price").value
+        );
+        formData.append("desc_uk", document.getElementById("desc_uk").value);
+        formData.append("desc_en", document.getElementById("desc_en").value);
+        formData.append("category", document.getElementById("category").value);
+
+        const file = document.getElementById("imgFile").files[0];
+        const imgUrl = document.getElementById("imgUrl").value;
+
+        if (file) {
+          formData.append("image", file);
+        } else if (imgUrl) {
+          formData.append("img", imgUrl);
+        }
+
+        let url = API + "/products";
+        let method = "POST";
+        if (id) {
+          url = API + "/products/" + id;
+          method = "PUT";
+        }
+
+        const res = await fetch(url, {
+          method,
+          body: formData,
+          credentials: "include",
+        });
+        if (res.ok) {
+          alert("Сохранено");
+          clearForm();
+          loadProducts();
+        } else {
+          const err = await res.json().catch(() => ({ error: "Ошибка" }));
+          alert("Ошибка: " + (err.error || JSON.stringify(err)));
+        }
+      }
+
+      async function edit(id) {
+        const res = await fetch(API + "/products/" + id, {
+          credentials: "include",
+        });
+        if (!res.ok) {
+          alert("Не удалось загрузить товар");
+          return;
+        }
+        const p = await res.json();
+        document.getElementById("prodId").value = p.id;
+        document.getElementById("title_uk").value = p.title_uk || "";
+        document.getElementById("title_en").value = p.title_en || "";
+        document.getElementById("price").value = p.price || "";
+        document.getElementById("sale_price").value = p.sale_price || "";
+        document.getElementById("imgUrl").value = p.img || "";
+        document.getElementById("desc_uk").value = p.desc_uk || "";
+        document.getElementById("desc_en").value = p.desc_en || "";
+        document.getElementById("category").value = p.category || "";
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      async function del(id) {
+        if (!confirm("Удалить товар?")) return;
+        const res = await fetch(API + "/products/" + id, {
+          method: "DELETE",
+          credentials: "include",
+        });
+        if (res.ok) {
+          loadProducts();
+        } else {
+          alert("Ошибка удаления");
+        }
+      }
+    </script>
+  </body>
+</html>
