@@ -1055,3 +1055,22 @@ footer {
 .burger.active .burger-line:nth-child(3) {
   transform: translateY(-6px) rotate(-45deg);
 }
+/* sale price styles */
+.price { font-size: 18px; font-weight: 700; margin: 8px 0; text-align:center; }
+.old-price { color: #888; text-decoration: line-through; margin-right: 8px; font-weight:500; }
+.new-price { color: #d62828; font-weight: 800; }
+.product.sale { position: relative; }
+.product.sale .new-price { background: rgba(214,40,40,0.06); padding: 2px 6px; border-radius:4px; }
+.product.sale::before {
+  content: "ЗНИЖКА";
+  position: absolute;
+  top: 12px;
+  left: 20px;
+  background: #d62828;
+  color: #fff;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  transform: rotate(-15deg);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
