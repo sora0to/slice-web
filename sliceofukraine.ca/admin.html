@@ -101,7 +101,7 @@
   </head>
   <body>
     <div class="wrap">
-      <h1>Админ-панель — Каталог</h1>
+      <h1>Адмін-панель.</h1>
 
       <div id="loginBox">
         <div class="login">
@@ -110,36 +110,36 @@
             type="password"
             placeholder="Пароль администратора"
           />
-          <button id="loginBtn">Войти</button>
+          <button id="loginBtn">Увійти</button>
         </div>
-        <div class="small">Пароль хранится на сервере (env ADMIN_PASS).</div>
+        <div class="small"></div>
       </div>
 
       <div id="adminUI" style="display: none">
         <section>
-          <h2>Добавить / Редактировать товар</h2>
+          <h2>Додати / Редагувати товар</h2>
           <form id="productForm">
             <input type="hidden" id="prodId" />
             <div class="row">
               <div class="col">
-                <input id="title_uk" placeholder="Название (укр)" />
+                <input id="title_uk" placeholder="Назва (укр)" />
                 <input id="title_en" placeholder="Title (en)" />
-                <input id="category" placeholder="Категория" />
-                <input id="price" placeholder="Цена (например 12)" />
+                <input id="category" placeholder="Категорія" />
+                <input id="price" placeholder="Ціна" />
                 <input
-                  id="sale_price"
-                  placeholder="Скидочная цена (опционально)"
+                  id="discount"
+                  placeholder="Знижкова ціна (опціонально)"
                 />
               </div>
               <div class="col">
                 <input
                   id="imgUrl"
-                  placeholder="URL изображения (если не загружаете файл)"
+                  placeholder="URL зображення (якщо не завантажуєте файл)"
                 />
                 <div style="margin-top: 6px">
                   <input id="imgFile" type="file" accept="image/*" />
                 </div>
-                <textarea id="desc_uk" placeholder="Описание (укр)"></textarea>
+                <textarea id="desc_uk" placeholder="Опис (укр)"></textarea>
                 <textarea
                   id="desc_en"
                   placeholder="Description (en)"
@@ -147,9 +147,9 @@
               </div>
             </div>
             <div style="margin-top: 8px">
-              <button id="saveBtn" type="button">Сохранить</button>
+              <button id="saveBtn" type="button">Зберегти</button>
               <button id="clearBtn" type="button" style="background: #6c757d">
-                Очистить
+                Очистити
               </button>
               <button
                 id="logoutBtn"
@@ -157,14 +157,25 @@
                 class="danger"
                 style="float: right"
               >
-                Выйти
+                Вийти
               </button>
             </div>
           </form>
         </section>
-
+        <!-- ПОИСК -->
+        <input
+          id="searchBox"
+          placeholder="Пошук товарів..."
+          style="
+            padding: 8px;
+            width: 100%;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+          "
+        />
         <section class="list">
-          <h2>Список товаров</h2>
+          <h2>Список товарів</h2>
           <div id="products"></div>
         </section>
       </div>
@@ -173,6 +184,7 @@
     <script>
       const API = "/api";
       let isLogged = false;
+      let PRODUCTS = []; // оригинальный список товаров
 
       document.getElementById("loginBtn").addEventListener("click", login);
       document.getElementById("saveBtn").addEventListener("click", saveProduct);
@@ -193,7 +205,7 @@
           document.getElementById("adminUI").style.display = "block";
           loadProducts();
         } else {
-          alert("Неверный пароль");
+          alert("Неправильний пароль");
         }
       }
 
@@ -207,9 +219,29 @@
 
       async function loadProducts() {
         const res = await fetch(API + "/products", { credentials: "include" });
-        const arr = await res.json();
-        renderList(arr);
+        PRODUCTS = await res.json(); // сохраняем оригинальные товары
+        renderList(PRODUCTS);
       }
+
+      document.getElementById("searchBox").addEventListener("input", (e) => {
+        const q = e.target.value.toLowerCase().trim();
+
+        if (!q) {
+          renderList(PRODUCTS);
+          return;
+        }
+
+        const filtered = PRODUCTS.filter(
+          (p) =>
+            (p.title_uk || "").toLowerCase().includes(q) ||
+            (p.title_en || "").toLowerCase().includes(q) ||
+            (p.category || "").toLowerCase().includes(q) ||
+            (p.desc_uk || "").toLowerCase().includes(q) ||
+            (p.desc_en || "").toLowerCase().includes(q)
+        );
+
+        renderList(filtered);
+      });
 
       function renderList(items) {
         const root = document.getElementById("products");
@@ -224,17 +256,17 @@
         <div class="small">${p.category || ""}</div>
         <div style="margin-top:6px">
           ${
-            p.sale_price
-              ? `<span style="color:#e53935;font-weight:700">${p.sale_price}</span> <span class="small" style="text-decoration:line-through;margin-left:8px">${p.price}</span>`
+            p.discount
+              ? `<span style="color:#e53935;font-weight:700">${p.discount}</span> <span class="small" style="text-decoration:line-through;margin-left:8px">${p.price}</span>`
               : `<span>${p.price}</span>`
           }
         </div>
       </div>
       <div class="controls">
-        <button onclick="edit(${p.id})">Редактировать</button>
+        <button onclick="edit(${p.id})">Редагувати</button>
         <button onclick="del(${
           p.id
-        })" style="background:#e53935">Удалить</button>
+        })" style="background:#e53935">Видалити</button>
       </div>
     `;
           root.appendChild(div);
@@ -247,7 +279,7 @@
           "title_uk",
           "title_en",
           "price",
-          "sale_price",
+          "discount",
           "imgUrl",
           "desc_uk",
           "desc_en",
@@ -263,8 +295,8 @@
         formData.append("title_en", document.getElementById("title_en").value);
         formData.append("price", document.getElementById("price").value);
         formData.append(
-          "sale_price",
-          document.getElementById("sale_price").value
+          "discount",
+          document.getElementById("discount").value
         );
         formData.append("desc_uk", document.getElementById("desc_uk").value);
         formData.append("desc_en", document.getElementById("desc_en").value);
@@ -292,7 +324,7 @@
           credentials: "include",
         });
         if (res.ok) {
-          alert("Сохранено");
+          alert("Збережено успішно");
           clearForm();
           loadProducts();
         } else {
@@ -306,7 +338,7 @@
           credentials: "include",
         });
         if (!res.ok) {
-          alert("Не удалось загрузить товар");
+          alert("Неможливо завантажити товар");
           return;
         }
         const p = await res.json();
@@ -314,7 +346,7 @@
         document.getElementById("title_uk").value = p.title_uk || "";
         document.getElementById("title_en").value = p.title_en || "";
         document.getElementById("price").value = p.price || "";
-        document.getElementById("sale_price").value = p.sale_price || "";
+        document.getElementById("discount").value = p.discount || "";
         document.getElementById("imgUrl").value = p.img || "";
         document.getElementById("desc_uk").value = p.desc_uk || "";
         document.getElementById("desc_en").value = p.desc_en || "";
@@ -323,7 +355,7 @@
       }
 
       async function del(id) {
-        if (!confirm("Удалить товар?")) return;
+        if (!confirm("Видалити товар?")) return;
         const res = await fetch(API + "/products/" + id, {
           method: "DELETE",
           credentials: "include",
@@ -331,7 +363,7 @@
         if (res.ok) {
           loadProducts();
         } else {
-          alert("Ошибка удаления");
+          alert("Помилка видалення");
         }
       }
     </script>

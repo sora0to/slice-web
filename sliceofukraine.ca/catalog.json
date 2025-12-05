@@ -63,21 +63,24 @@
     "id": 7,
     "title_uk": "Цукерки з фруктовою начинкою (зелені)",
     "title_en": "Fruit candies (green)",
-    "price": "",
+    "price": "12",
     "img": "https://images.prom.ua/3457887441_karamelni-tsukerki-roshen.jpg",
     "desc_uk": "Фруктові цукерки у зелених обгортках.",
     "desc_en": "Fruit candies in green wrappers.",
-    "category": "sweets"
+    "category": "sweets",
+    "discount": ""
   },
   {
     "id": 8,
     "title_uk": "Цукерки з карамеллю (біло-зелені)",
     "title_en": "Caramel candies (white-green)",
-    "price": "",
+    "price": "6",
     "img": "https://images.prom.ua/3457887441_karamelni-tsukerki-roshen.jpg",
     "desc_uk": "Карамельні цукерки у біло-зелених обгортках.",
     "desc_en": "Caramel candies in white-green wrappers.",
-    "category": "sweets"
+    "category": "sweets",
+    "discount": "3",
+    "sale_price": ""
   },
   {
     "id": 9,
@@ -561,13 +564,36 @@
   },
   {
     "id": 57,
-    "title_uk": "afasfafd",
+    "title_uk": "pret coffee",
     "title_en": "",
     "price": "100",
-    "sale_price": "20",
+    "discount": "20",
+    "img": "/img/uploads/1764896923940-766832581.jpg",
+    "desc_uk": "",
+    "desc_en": "",
+    "category": "cofee"
+  },
+  {
+    "id": 58,
+    "title_uk": "test coffee",
+    "title_en": "",
+    "price": "200",
+    "discount": "50",
+    "img": "/img/uploads/1764896923940-766832581.jpg",
+    "desc_uk": "",
+    "desc_en": "",
+    "category": "cofee"
+  },
+  {
+    "id": 59,
+    "title_uk": "Цукерки «М’ятна»",
+    "title_en": "Candies 'Mint'",
+    "price": "12",
+    "sale_price": "",
     "img": "",
     "desc_uk": "",
     "desc_en": "",
-    "category": ""
+    "category": "",
+    "discount": "5"
   }
 ]

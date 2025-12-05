@@ -231,7 +231,7 @@ app.post('/api/products', requireAuth, upload.single('image'), async (req, res) 
     title_uk: body.title_uk || '',
     title_en: body.title_en || '',
     price: body.price ? String(body.price) : '0',
-    sale_price: body.sale_price ? String(body.sale_price) : '',
+    discount: body.discount ? String(body.discount) : '',
     img: imgPath,
     desc_uk: body.desc_uk || '',
     desc_en: body.desc_en || '',
@@ -268,7 +268,7 @@ app.put('/api/products/:id', requireAuth, upload.single('image'), async (req, re
   p.title_uk = body.title_uk ?? p.title_uk;
   p.title_en = body.title_en ?? p.title_en;
   p.price = body.price !== undefined ? String(body.price) : p.price;
-  p.sale_price = body.sale_price !== undefined ? String(body.sale_price) : (p.sale_price || '');
+  p.discount = body.discount !== undefined ? String(body.discount) : (p.discount || '');
   p.desc_uk = body.desc_uk ?? p.desc_uk;
   p.desc_en = body.desc_en ?? p.desc_en;
   p.category = body.category ?? p.category;

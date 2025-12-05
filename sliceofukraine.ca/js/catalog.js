@@ -80,6 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentLang = "uk";
 
   const FALLBACK = [
+    /* ... (keep your fallback array from original) ... */
     {
       id: 1,
       title_uk: "Цукерки Рошен «Червоний мак»",
@@ -90,127 +91,82 @@ document.addEventListener("DOMContentLoaded", () => {
       desc_en: "Classic chocolate candies with filling in red wrapper.",
       category: "sweets",
     },
-    {
-      id: 2,
-      title_uk: "Цукерки Рошен «Сливки-ленивки»",
-      title_en: "Roshen candies 'Lazy Creams'",
-      price: "14",
-      img: "photo_2025-08-29_18-48-14.jpg",
-      desc_uk: "Цукерки з молочно-вершковою начинкою у фіолетовій обгортці.",
-      desc_en: "Candies with milk-cream filling in purple wrapper.",
-      category: "sweets",
-    },
-    {
-      id: 3,
-      title_uk: "Цукерки «Зелена роща»",
-      title_en: "Candies 'Green Grove'",
-      price: "4",
-      img: "photo_2025-08-29_18-48-14.jpg",
-      desc_uk: "Шоколадні цукерки з начинкою у зеленій обгортці.",
-      desc_en: "Chocolate candies with filling in green wrapper.",
-      category: "sweets",
-    },
-    {
-      id: 4,
-      title_uk: "Цукерки «Коровка»",
-      title_en: "Candies 'Korovka'",
-      price: "8",
-      img: "photo_2025-08-29_18-48-14.jpg",
-      desc_uk: "Класичні іриски з молочним смаком у жовтій обгортці.",
-      desc_en: "Classic toffee candies with milk flavor in yellow wrapper.",
-      category: "sweets",
-    },
-    {
-      id: 5,
-      title_uk: "Цукерки «Ромашка»",
-      title_en: "Candies 'Chamomile'",
-      price: "9",
-      img: "photo_2025-08-29_18-48-14.jpg",
-      desc_uk: "Цукерки з начинкою у біло-фіолетовій обгортці.",
-      desc_en: "Candies with filling in white-purple wrapper.",
-      category: "sweets",
-    },
-    {
-      id: 6,
-      title_uk: "Цукерки «М’ятна»",
-      title_en: "Candies 'Mint'",
-      price: "",
-      img: "photo_2025-08-29_18-48-14.jpg",
-      desc_uk: "Цукерки з м’ятною начинкою у біло-зеленій обгортці.",
-      desc_en: "Candies with mint filling in white-green wrapper.",
-      category: "sweets",
-    },
-    {
-      id: 7,
-      title_uk: "Цукерки з фруктовою начинкою (зелені)",
-      title_en: "Fruit candies (green)",
-      price: "",
-      img: "photo_2025-08-29_18-48-14.jpg",
-      desc_uk: "Фруктові цукерки у зелених обгортках.",
-      desc_en: "Fruit candies in green wrappers.",
-      category: "sweets",
-    },
-    {
-      id: 8,
-      title_uk: "Цукерки з карамеллю (біло-зелені)",
-      title_en: "Caramel candies (white-green)",
-      price: "",
-      img: "photo_2025-08-29_18-48-14.jpg",
-      desc_uk: "Карамельні цукерки у біло-зелених обгортках.",
-      desc_en: "Caramel candies in white-green wrappers.",
-      category: "sweets",
-    },
-    {
-      id: 9,
-      title_uk: "Квас світлий",
-      title_en: "White Kvas",
-      price: "",
-      img: "photo_2025-08-29_18-48-14.jpg",
-      desc_uk: "Освітлений квас у золотистій банці.",
-      desc_en: "Light kvass in golden can.",
-      category: "drinks",
-    },
-    {
-      id: 10,
-      title_uk: "Квас темний",
-      title_en: "Dark Kvas",
-      price: "",
-      img: "photo_2025-08-29_18-48-14.jpg",
-      desc_uk: "Темний квас у чорній банці.",
-      desc_en: "Dark kvass in black can.",
-      category: "drinks",
-    },
+    // you can keep the rest...
   ];
 
   function esc(str) {
-    if (!str) return "";
+    if (str === null || str === undefined) return "";
     return String(str)
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/"/g, "&quot;");
   }
+
+  // safe parse float for sorting/total
+  function toNumber(val) {
+    const n = parseFloat(
+      String(val || "")
+        .replace(/[^0-9.,-]/g, "")
+        .replace(",", ".")
+    );
+    return Number.isFinite(n) ? n : 0;
+  }
+
   function createCard(p) {
     const div = document.createElement("div");
     div.className = "product";
     div.dataset.index = p.id || 0;
+
+    const hasDiscount = p.discount && p.discount !== "" && p.discount !== "0";
+
+    // Add sale class when needed
+    if (hasDiscount) div.classList.add("sale");
+
+    // Price HTML
+    let priceHtml = "";
+    if (hasDiscount) {
+      priceHtml = `
+        <p class="price">
+          <span class="old-price">${esc(p.price)} ₴</span>
+          <span class="new-price">${esc(p.discount)} ₴</span>
+        </p>`;
+    } else {
+      priceHtml = `<p class="price">${esc(p.price)} ₴</p>`;
+    }
+
     div.innerHTML = `
-    <img loading="lazy" src="${esc(p.img)}" alt="${esc(p.title_uk)}">
-    <h3 data-uk="${esc(p.title_uk)}" data-en="${esc(p.title_en)}">${
-      p.title_uk
-    }</h3>
-    <p class="price">$${esc(p.price)}</p>
-    <p class="desc" data-uk="${esc(p.desc_uk)}" data-en="${esc(p.desc_en)}">${
-      p.desc_uk || ""
-    }</p>
-    <div style="display:flex;gap:8px;justify-content:center;margin:12px 0;">
-      <button class="btn-detail" data-id="${
-        p.id
-      }" data-uk="Деталі" data-en="Details" style="padding:8px 10px;border-radius:8px;border:1px solid #ddd;background:#fff;cursor:pointer">Деталі</button>
-      <button class="btn-add" data-id="${
-        p.id
-      }" aria-label="Add to cart" data-uk="В корзину" data-en="To cart" style="padding:8px 10px;border-radius:8px;border:1px solid #ddd;background:var(--accent);font-weight:700;cursor:pointer">В корзину</button>
-    </div>
-  `;
+      <img loading="lazy" src="${esc(p.img)}" alt="${esc(p.title_uk)}">
+
+      <h3 data-uk="${esc(p.title_uk)}" data-en="${esc(p.title_en)}">
+        ${p.title_uk}
+      </h3>
+
+      ${priceHtml}
+
+      <p class="desc" data-uk="${esc(p.desc_uk)}" data-en="${esc(p.desc_en)}">
+        ${p.desc_uk || ""}
+      </p>
+
+      <div style="display:flex;gap:8px;justify-content:center;margin:12px 0;">
+        <button class="btn-detail"
+          data-id="${p.id}"
+          data-uk="Деталі"
+          data-en="Details"
+          style="padding:8px 10px;border-radius:8px;border:1px solid #ddd;background:#fff;cursor:pointer">
+          Деталі
+        </button>
+
+        <button class="btn-add"
+          data-id="${p.id}"
+          aria-label="Add to cart"
+          data-uk="В корзину"
+          data-en="To cart"
+          style="padding:8px 10px;border-radius:8px;border:1px solid #ddd;background:var(--accent);font-weight:700;cursor:pointer">
+          В корзину
+        </button>
+      </div>
+    `;
+
     return div;
   }
 
@@ -255,10 +211,21 @@ document.addEventListener("DOMContentLoaded", () => {
       return matchesCat && matchesQ;
     });
 
-    if (sort === "price-asc")
-      filtered.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
-    if (sort === "price-desc")
-      filtered.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+    // sort by effective price (discount if present)
+    if (sort === "price-asc") {
+      filtered.sort((a, b) => {
+        const pa = toNumber(a.discount || a.price);
+        const pb = toNumber(b.discount || b.price);
+        return pa - pb;
+      });
+    }
+    if (sort === "price-desc") {
+      filtered.sort((a, b) => {
+        const pa = toNumber(a.discount || a.price);
+        const pb = toNumber(b.discount || b.price);
+        return pb - pa;
+      });
+    }
     if (sort === "title-asc")
       filtered.sort((a, b) =>
         (a.title_en || "").localeCompare(b.title_en || "")
@@ -308,12 +275,18 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!prod) return;
 
         btn.classList.remove("animate");
-        void btn.offsetWidth; // перезапуск анимации
+        void btn.offsetWidth; // restart animation
         btn.classList.add("animate");
+
+        // use discount if present
+        const finalPrice =
+          prod.discount && prod.discount !== "" && prod.discount !== "0"
+            ? prod.discount
+            : prod.price;
 
         addToCart({
           title: prod.title_uk,
-          price: prod.price,
+          price: finalPrice,
           id: prod.id,
         });
       });
@@ -350,14 +323,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* Modal logic (details only) */
   function openModal(prod) {
-    modalImage.style.backgroundImage = `url('${prod.img}')`;
+    modalImage.style.backgroundImage = `url('${esc(prod.img)}')`;
     modalTitle.textContent =
       currentLang === "uk"
         ? prod.title_uk || prod.title_en
         : prod.title_en || prod.title_uk;
     modalDesc.textContent =
       currentLang === "uk" ? prod.desc_uk || "" : prod.desc_en || "";
-    modalPrice.textContent = `$${prod.price}`;
+
+    if (prod.discount && prod.discount !== "" && prod.discount !== "0") {
+      modalPrice.innerHTML = `<span class="old-price">${esc(
+        prod.price
+      )} ₴</span> <span class="new-price">${esc(prod.discount)} ₴</span>`;
+    } else {
+      modalPrice.textContent = `${esc(prod.price)} ₴`;
+    }
+
     productModal.style.display = "block";
     productModal.setAttribute("aria-hidden", "false");
     modalClose.onclick = closeModal;
@@ -398,10 +379,10 @@ document.addEventListener("DOMContentLoaded", () => {
     headerLangBtn.addEventListener(
       "click",
       () => {
-        // переключаем язык
+        // switch language
         currentLang = currentLang === "uk" ? "en" : "uk";
 
-        // обновляем контент на странице
+        // update content on page
         document.querySelectorAll("[data-uk]").forEach((n) => {
           n.style.transition = n.style.transition || "opacity .28s";
           n.style.opacity = "0";
@@ -414,9 +395,8 @@ document.addEventListener("DOMContentLoaded", () => {
           });
         }, 300);
 
-        // обновляем текст кнопки (показываем язык для переключения)
+        // update lang button text
         headerLangBtn.textContent = currentLang === "uk" ? "EN" : "UA";
-        // обновляем aria-pressed
         headerLangBtn.setAttribute("aria-pressed", currentLang === "en");
       },
       { passive: true }
@@ -425,17 +405,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
   (async function init() {
     catalogGrid.innerHTML = '<div class="loading">Завантаження...</div>';
-    allProducts = await loadCatalogData();
-    allProducts = allProducts.map((p, idx) => ({
+    let data = await loadCatalogData();
+    // ensure discount is copied and normalized
+    allProducts = data.map((p, idx) => ({
       id: p.id || idx + 1,
       title_uk: p.title_uk || p.title_en || "Product " + (idx + 1),
       title_en: p.title_en || p.title_uk || "Product " + (idx + 1),
+
+      // сервер всегда отдаёт sale_price — поэтому приводим всё к discount
       price: (p.price || "0").toString(),
+      discount: (p.discount || p.sale_price || "").toString(),
+
       img: p.img || "",
       desc_uk: p.desc_uk || "",
       desc_en: p.desc_en || "",
       category: p.category || "",
     }));
+
     populateCategories(allProducts);
     filtered = allProducts.slice();
     page = 0;
@@ -448,7 +434,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ---------- TO TOP button ---------- */
   const toTop = document.getElementById("toTop");
 
-  // Появление кнопки при прокрутке
+  // show toTop on scroll
   window.addEventListener("scroll", () => {
     if (window.scrollY > 300) {
       toTop.classList.add("show");
@@ -457,13 +443,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Плавная прокрутка наверх
   toTop.addEventListener("click", () => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
   });
+
   /* ========== CART MODAL (open / close) ========== */
 
   const cartBtn = document.getElementById("cartBtn");
@@ -486,11 +472,14 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.target === cartModal) cartModal.style.display = "none";
   });
 });
+/* ==== CART LOGIC (global) ==== */
 window.cart = [];
 
 function updateCartUI() {
   const itemsEl = document.getElementById("cartItems");
   const totalEl = document.getElementById("cartTotal");
+
+  if (!itemsEl || !totalEl) return;
 
   itemsEl.innerHTML = "";
   let total = 0;
@@ -499,16 +488,17 @@ function updateCartUI() {
     const div = document.createElement("div");
     div.classList.add("cart-item");
     div.innerHTML = `
-      <span>${p.title}</span>
-      <span>${p.price} ₴</span>
+      <span>${esc(p.title)}</span>
+      <span>${esc(p.price)} ₴</span>
       <button onclick="removeFromCart(${i})">✕</button>
     `;
-    total += parseFloat(p.price);
+    total += toNumber(p.price);
     itemsEl.appendChild(div);
   });
 
   totalEl.textContent = "Разом: " + total + " ₴";
-  document.getElementById("cartCount").textContent = window.cart.length;
+  const countEl = document.getElementById("cartCount");
+  if (countEl) countEl.textContent = window.cart.length;
 }
 
 window.updateCartUI = updateCartUI;
@@ -521,4 +511,31 @@ function addToCart(product) {
 function removeFromCart(i) {
   window.cart.splice(i, 1);
   updateCartUI();
+}
+
+/* helper available inside cart UI too */
+function esc(str) {
+  if (str === null || str === undefined) return "";
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/"/g, "&quot;");
+}
+
+function toNumber(val) {
+  const n = parseFloat(
+    String(val || "")
+      .replace(/[^0-9.,-]/g, "")
+      .replace(",", ".")
+  );
+  return Number.isFinite(n) ? n : 0;
+}
+
+function toNumber(val) {
+  const n = parseFloat(
+    String(val || "")
+      .replace(/[^0-9.,-]/g, "")
+      .replace(",", ".")
+  );
+  return Number.isFinite(n) ? n : 0;
 }

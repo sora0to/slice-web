@@ -120,33 +120,6 @@ document.addEventListener("DOMContentLoaded", () => {
     mo.observe(grid, { childList: true, subtree: true });
   }
 
-  // // ensure modal has "Add to cart" button
-  // function ensureModalAddBtn() {
-  //   const modal = document.getElementById("productModal");
-  //   if (!modal) return;
-  //   const existing = modal.querySelector("#modalAddBtn");
-  //   if (existing) return;
-  //   // find the controls area (we'll append near modalCloseBtn if exists)
-  //   const inner =
-  //     modal.querySelector(".product-modal-inner") ||
-  //     modal.querySelector(".modal-content") ||
-  //     modal;
-  //   const btn = document.createElement("button");
-  //   btn.id = "modalAddBtn";
-  //   btn.type = "button";
-  //   btn.className = "btn-add";
-  //   btn.textContent = "В корзину";
-  //   btn.style.cssText =
-  //     "padding:10px 14px;border-radius:8px;border:none;background:var(--accent);color:#00306a;font-weight:700;cursor:pointer;";
-  //   // try to insert before close button if present
-  //   const controlsWrap =
-  //     inner.querySelector('div[style*="margin-top"]') ||
-  //     inner.querySelector("div") ||
-  //     inner;
-  //   controlsWrap.appendChild(btn);
-  // }
-  // ensureModalAddBtn();
-
   // basic cart operations
   function updateCartUI() {
     if (!cartItems) return;
