@@ -583,17 +583,5 @@
     "desc_uk": "",
     "desc_en": "",
     "category": "cofee"
-  },
-  {
-    "id": 59,
-    "title_uk": "Цукерки «М’ятна»",
-    "title_en": "Candies 'Mint'",
-    "price": "12",
-    "sale_price": "",
-    "img": "",
-    "desc_uk": "",
-    "desc_en": "",
-    "category": "",
-    "discount": "5"
   }
 ]
