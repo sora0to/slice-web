@@ -2,15 +2,21 @@
 document.addEventListener("DOMContentLoaded", () => {
   const STORAGE_KEY = "slice_of_ukraine_cart_v1";
 
+  // cart elements
   const cartBtn = document.getElementById("cartBtn");
   const cartModal = document.getElementById("cartModal");
   const cartClose = document.getElementById("cartClose");
   const cartItems = document.getElementById("cartItems");
   const cartTotalEl = document.getElementById("cartTotal");
-  const checkoutBtn = document.getElementById("checkoutBtn");
 
-  // // state
-  // let cart = [];
+  // checkout elements
+  const checkoutBtn = document.getElementById("checkoutBtn");
+  const checkoutModal = document.getElementById("checkoutModal");
+  const checkoutForm = document.getElementById("checkoutForm");
+  const checkoutClose = document.getElementById("checkoutClose");
+  const checkoutButton = document.getElementById("checkout-button");
+
+  let cart = window.cart || [];
 
   // helpers
   function priceToNumber(val) {
@@ -19,14 +25,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const n = parseFloat(s.replace(/[^0-9.\-]+/g, "")) || 0;
     return n;
   }
+
   function detectCurrencySymbol(text) {
-    if (!text) return "₴";
-    if (text.includes("₴")) return "₴";
-    if (text.includes("$")) return "$";
-    if (text.includes("€")) return "€";
-    // fallback — try to find any non-digit char
-    const m = text.match(/[^\d\s.,]+/);
-    return m ? m[0] : "₴";
+    if (!text) return "CA$";
+    if (text.includes("CAD")) return "CA$";
+    if (text.includes("$")) return "CA$";
+    return "CA$";
   }
 
   function saveCart() {
@@ -36,13 +40,14 @@ document.addEventListener("DOMContentLoaded", () => {
       console.warn(e);
     }
   }
+
   function loadCart() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return [];
       const parsed = JSON.parse(raw);
       return Array.isArray(parsed) ? parsed : [];
-    } catch (e) {
+    } catch {
       return [];
     }
   }
@@ -70,17 +75,15 @@ document.addEventListener("DOMContentLoaded", () => {
       cardElem.querySelector(".price")?.textContent || ""
     ).trim();
     const priceNum = priceToNumber(priceText);
-    const currency = detectCurrencySymbol(priceText);
+    const currency = "CA$";
     return { id, title, img, price: priceNum, priceText, currency };
   }
 
   function findCardById(id) {
-    // try data-id on buttons
     const btn = document.querySelector(
       `.btn-detail[data-id="${id}"], .btn-add[data-id="${id}"]`
     );
     if (btn) return btn.closest(".product");
-    // try dataset.index
     const card = Array.from(
       document.querySelectorAll("#catalogGrid .product")
     ).find((p) => String(p.dataset.index) === String(id));
@@ -91,7 +94,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const products = document.querySelectorAll("#catalogGrid .product");
     products.forEach((prod) => {
       if (!prod.querySelector(".btn-add")) {
-        // try to determine id
         const id =
           prod.querySelector(".btn-detail")?.dataset?.id ||
           prod.dataset.index ||
@@ -103,14 +105,13 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.textContent = "В корзину";
         btn.style.cssText =
           "padding:8px 10px;border-radius:8px;border:1px solid #ddd;background:var(--accent);font-weight:700;cursor:pointer";
-        // append near existing controls or at the end
         const controls = prod.querySelector("div") || prod;
         controls.appendChild(btn);
       }
     });
   }
 
-  // ensure catalog add-btns on load and when grid changes
+  // ensure catalog add buttons
   ensureAddButtons();
   const grid = document.getElementById("catalogGrid");
   if (grid) {
@@ -125,11 +126,13 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!cartItems) return;
     cartItems.innerHTML = "";
     let total = 0;
-    let currency = "₴";
+    let currency = "CA$";
+
     cart.forEach((item) => {
       const priceNum = priceToNumber(item.price);
       total += priceNum * item.qty;
       if (item.currency) currency = item.currency;
+
       const row = document.createElement("div");
       row.className = "cart-item";
       row.style.cssText =
@@ -163,26 +166,29 @@ document.addEventListener("DOMContentLoaded", () => {
       `;
       cartItems.appendChild(row);
     });
-    const displayCurrency =
-      cart.length && cart[0].currency ? cart[0].currency : currency;
+
+    const displayCurrency = "CA$";
     if (cartTotalEl)
-      cartTotalEl.textContent = `Разом: ${total.toFixed(2)} ${displayCurrency}`;
+      cartTotalEl.textContent = `Разом: ${total.toFixed(
+        2
+      )} ${displayCurrency}`;
+
     if (cartBtn) {
       const countSpan = cartBtn.querySelector("#cartCount");
-      if (countSpan)
-        countSpan.textContent = cart.reduce((s, i) => s + i.qty, 0);
-      else {
-        // fallback if no span
-        cartBtn.textContent = `🛒 ${cart.reduce((s, i) => s + i.qty, 0)}`;
-      }
+      const totalQty = cart.reduce((s, i) => s + i.qty, 0);
+      if (countSpan) countSpan.textContent = totalQty;
+      else cartBtn.textContent = `🛒 ${totalQty}`;
     }
+
     saveCart();
+    window.cart = cart;
+    window.updateCartUI = updateCartUI;
   }
 
   function addToCartById(id, qty = 1) {
-    // try to find product in catalog
     const prodFromCatalog = findProductInCatalogById(id);
     let product = null;
+
     if (prodFromCatalog) {
       product = {
         id: prodFromCatalog.id,
@@ -193,15 +199,12 @@ document.addEventListener("DOMContentLoaded", () => {
           `Product ${prodFromCatalog.id}`,
         img: prodFromCatalog.img || "",
         price:
-          prodFromCatalog.price ||
-          prodFromCatalog.priceText ||
-          prodFromCatalog.priceStr ||
-          prodFromCatalog.price ||
-          "0",
-        currency: detectCurrencySymbol(String(prodFromCatalog.price || "")),
+          prodFromCatalog.discount && prodFromCatalog.discount !== "0"
+            ? prodFromCatalog.discount
+            : prodFromCatalog.price,
+        currency: "CA$",
       };
     } else {
-      // fallback to DOM card
       const card = findCardById(id);
       if (card) {
         const normalized = normalizeProductFromCard(card);
@@ -210,29 +213,32 @@ document.addEventListener("DOMContentLoaded", () => {
           title: normalized.title,
           img: normalized.img,
           price: normalized.price,
-          currency: normalized.currency,
+          currency: "CA$",
         };
       }
     }
+
     if (!product) {
       console.warn("Не вдалося знайти продукт для додавання:", id);
       return;
     }
-    // unify price as numeric string
+
     product.price = String(product.price);
     const found = cart.find((i) => String(i.id) === String(product.id));
-    if (found) found.qty += qty;
-    else
+    if (found) {
+      found.qty += qty;
+    } else {
       cart.push({
         id: product.id,
         title: product.title,
         img: product.img,
         price: product.price,
         qty: qty,
-        currency: product.currency || detectCurrencySymbol(product.price),
+        currency: "CA$",
       });
+    }
     updateCartUI();
-    // small visual feedback
+
     if (cartBtn)
       cartBtn.animate(
         [
@@ -258,7 +264,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const imgMatch = imgStyle.match(/url\(['"]?(.*?)['"]?\)/);
     const img = imgMatch ? imgMatch[1] : "";
     const priceNum = priceToNumber(priceText);
-    const currency = detectCurrencySymbol(priceText);
+    const currency = "CA$";
     const tempId = "modal-" + Date.now();
     const product = {
       id: tempId,
@@ -282,6 +288,7 @@ document.addEventListener("DOMContentLoaded", () => {
     cart = cart.filter((i) => String(i.id) !== String(id));
     updateCartUI();
   }
+
   function changeQty(id, delta) {
     const it = cart.find((i) => String(i.id) === String(id));
     if (!it) return;
@@ -289,16 +296,17 @@ document.addEventListener("DOMContentLoaded", () => {
     if (it.qty === 0) removeFromCart(id);
     else updateCartUI();
   }
+
   function clearCart() {
     cart = [];
     updateCartUI();
   }
 
-  // init
+  // init cart
   cart = loadCart();
   updateCartUI();
 
-  // UI handlers
+  // cart modal UI
   if (cartBtn)
     cartBtn.addEventListener("click", () => {
       if (cartModal) {
@@ -306,6 +314,7 @@ document.addEventListener("DOMContentLoaded", () => {
         cartModal.setAttribute("aria-hidden", "false");
       }
     });
+
   if (cartClose)
     cartClose.addEventListener("click", () => {
       if (cartModal) {
@@ -313,6 +322,7 @@ document.addEventListener("DOMContentLoaded", () => {
         cartModal.setAttribute("aria-hidden", "true");
       }
     });
+
   if (cartModal)
     cartModal.addEventListener("click", (e) => {
       if (e.target === cartModal) {
@@ -321,11 +331,31 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-  // event delegation for add buttons injected in catalog
+  // checkout modal open/close
+  if (checkoutBtn && checkoutModal) {
+    checkoutBtn.addEventListener("click", () => {
+      checkoutModal.style.display = "flex";
+    });
+  }
+
+  if (checkoutClose && checkoutModal) {
+    checkoutClose.addEventListener("click", () => {
+      checkoutModal.style.display = "none";
+    });
+  }
+
+  if (checkoutModal) {
+    checkoutModal.addEventListener("click", (e) => {
+      if (e.target === checkoutModal) {
+        checkoutModal.style.display = "none";
+      }
+    });
+  }
+
+  // document click handlers for cart controls
   document.addEventListener("click", (e) => {
     const addBtn = e.target.closest && e.target.closest(".btn-add");
     if (addBtn) {
-      // special modal button
       if (addBtn.id === "modalAddBtn") {
         addToCartFromModal();
         return;
@@ -334,16 +364,19 @@ document.addEventListener("DOMContentLoaded", () => {
       if (id) addToCartById(id);
       return;
     }
+
     const inc = e.target.closest && e.target.closest(".qty-increase");
     if (inc) {
       changeQty(inc.dataset.id, +1);
       return;
     }
+
     const dec = e.target.closest && e.target.closest(".qty-decrease");
     if (dec) {
       changeQty(dec.dataset.id, -1);
       return;
     }
+
     const rem = e.target.closest && e.target.closest(".remove-item");
     if (rem) {
       removeFromCart(rem.dataset.id);
@@ -351,22 +384,49 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // checkout
-  if (checkoutBtn)
-    checkoutBtn.addEventListener("click", () => {
-      if (!cart.length) {
+  // checkout form sending
+  if (checkoutForm) {
+    checkoutForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const currentCart = cart.slice();
+      if (!currentCart.length) {
         alert("Кошик порожній");
         return;
       }
-      // // тут можна підключити реальний процес оформлення
-      // const totalText = cartTotalEl ? cartTotalEl.textContent : "";
-      // alert(`Дякуємо! Замовлення створено.\n${totalText}`);
-      // clearCart();
-      // if (cartModal) {
-      //   cartModal.style.display = "none";
-      //   cartModal.setAttribute("aria-hidden", "true");
-      // }
+
+      const formData = new FormData(checkoutForm);
+      const data = {
+        name: formData.get("name"),
+        address: formData.get("address"),
+        email: formData.get("email"),
+        cart: JSON.stringify(currentCart, null, 2),
+        total: cartTotalEl ? cartTotalEl.textContent : "",
+      };
+
+      try {
+        const resp = await fetch("/order", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+
+        const json = await resp.json();
+        if (json && json.success) {
+          alert("Дякуємо! Замовлення відправлено.");
+          cart = [];
+          updateCartUI();
+          checkoutModal.style.display = "none";
+        } else {
+          console.error("Order error:", json);
+          alert("Помилка при відправці замовлення.");
+        }
+      } catch (err) {
+        console.error("Fetch /order error:", err);
+        alert("Помилка при відправці замовлення.");
+      }
     });
+  }
 
   // expose api
   window.shopCart = {
@@ -377,49 +437,4 @@ document.addEventListener("DOMContentLoaded", () => {
     getCart: () => cart.slice(),
     updateCartUI,
   };
-
-  // ensure buttons again after some time to catch async builds
-  setTimeout(ensureAddButtons, 600);
-  // setTimeout(ensureModalAddBtn, 600);
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-  const checkoutButton = document.querySelector("#checkout-button");
-
-  if (checkoutButton) {
-    checkoutButton.addEventListener("click", async () => {
-      const STORAGE_KEY = "slice_of_ukraine_cart_v1";
-      const cart = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-
-      if (!cart.length) {
-        alert("Кошик порожній");
-        return;
-      }
-
-      const items = cart.map((item) => ({
-        name: item.title,
-        price: parseFloat(item.price),
-        quantity: item.qty || 1,
-      }));
-
-      try {
-        const response = await fetch("/create-checkout-session", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ items }),
-        });
-
-        const data = await response.json();
-        if (data.url) {
-          window.location.href = data.url; // Переходим на Stripe Checkout
-        } else {
-          console.error("Stripe response error:", data);
-          alert("Помилка створення оплати. Спробуйте ще раз.");
-        }
-      } catch (err) {
-        console.error("Fetch error:", err);
-        alert("Помилка з'єднання із сервером");
-      }
-    });
-  }
 });

@@ -190,15 +190,15 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("resize", onScroll);
   onScroll();
 
-async function loadCarousel() {
-  const track = document.getElementById("carouselTrack");
+  async function loadCarousel() {
+    const track = document.getElementById("carouselTrack");
 
-  const response = await fetch("catalog.json");
-  const products = await response.json();
+    const response = await fetch("catalog.json");
+    const products = await response.json();
 
-  // Рендерим карточки
-  function createItem(product) {
-    return `
+    // card renderer
+    function createItem(product) {
+      return `
       <div class="carousel-item">
         <img src="${product.img}" alt="${product.title_uk}">
         <div class="info">
@@ -207,41 +207,41 @@ async function loadCarousel() {
         </div>
       </div>
     `;
-  }
-
-  // 1. Добавляем оригинальный список
-  products.forEach(p => {
-    track.insertAdjacentHTML("beforeend", createItem(p));
-  });
-
-  // 2. Дублируем список для бесконечности
-  products.forEach(p => {
-    track.insertAdjacentHTML("beforeend", createItem(p));
-  });
-
-  let position = 0;
-
-  function autoScroll() {
-    position -= 1; // скорость (px)
-    track.style.transform = `translateX(${position}px)`;
-
-    // если половина прокручена — сбрасываем (бесконечность)
-    const itemWidth = 240; // карточка (220) + gap (20)
-    const fullWidth = products.length * itemWidth;
-
-    if (Math.abs(position) >= fullWidth) {
-      position = 0;
-      track.style.transform = "translateX(0px)";
     }
 
-    requestAnimationFrame(autoScroll);
+    // 1. Добавляем оригинальный список
+    products.forEach((p) => {
+      track.insertAdjacentHTML("beforeend", createItem(p));
+    });
+
+    // 2. Дублируем список для бесконечности
+    products.forEach((p) => {
+      track.insertAdjacentHTML("beforeend", createItem(p));
+    });
+
+    let position = 0;
+
+    function autoScroll() {
+      position -= 1; // скорость (px)
+      track.style.transform = `translateX(${position}px)`;
+
+      // если половина прокручена — сбрасываем (бесконечность)
+      const itemWidth = 240; // карточка (220) + gap (20)
+      const fullWidth = products.length * itemWidth;
+
+      if (Math.abs(position) >= fullWidth) {
+        position = 0;
+        track.style.transform = "translateX(0px)";
+      }
+
+      requestAnimationFrame(autoScroll);
+    }
+
+    autoScroll();
   }
 
-  autoScroll();
-}
+  loadCarousel();
 
-loadCarousel();
-  
   /* ---------- Reveal on scroll (IntersectionObserver) ---------- */
   const reveals = $$(".fade-section");
   if ("IntersectionObserver" in window && reveals.length) {
@@ -284,46 +284,6 @@ loadCarousel();
     });
   } else {
     products.forEach((p) => p.classList.add("show"));
-  }
-
-  /* ---------- TO TOP button ---------- */
-  const toTop = document.getElementById("toTop");
-
-  if (toTop) {
-    // Ищем контейнер с прокруткой
-    let scrollContainer = window;
-    const testEls = document.querySelectorAll(
-      "main, .catalog_inner, .content, .page, .scroll-container"
-    );
-    for (const el of testEls) {
-      if (el && el.scrollHeight > el.clientHeight + 10) {
-        scrollContainer = el;
-        break;
-      }
-    }
-
-    // Слушаем правильный элемент
-    (scrollContainer === window ? window : scrollContainer).addEventListener(
-      "scroll",
-      () => {
-        const scrollTop =
-          scrollContainer === window
-            ? document.documentElement.scrollTop || window.scrollY || 0
-            : scrollContainer.scrollTop;
-
-        if (scrollTop > 300) toTop.classList.add("show");
-        else toTop.classList.remove("show");
-      }
-    );
-
-    // Кнопка наверх
-    toTop.addEventListener("click", () => {
-      if (scrollContainer === window) {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      } else {
-        scrollContainer.scrollTo({ top: 0, behavior: "smooth" });
-      }
-    });
   }
 
   /* ---------- Accessibility: close menu on Escape globally ---------- */

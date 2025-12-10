@@ -571,7 +571,7 @@
     "img": "/img/uploads/1764896923940-766832581.jpg",
     "desc_uk": "",
     "desc_en": "",
-    "category": "cofee"
+    "category": "coffee"
   },
   {
     "id": 58,
@@ -582,6 +582,17 @@
     "img": "/img/uploads/1764896923940-766832581.jpg",
     "desc_uk": "",
     "desc_en": "",
-    "category": "cofee"
+    "category": "coffee"
+  },
+  {
+    "id": 59,
+    "title_uk": "test 2",
+    "title_en": "",
+    "price": "10",
+    "discount": "2",
+    "img": "",
+    "desc_uk": "",
+    "desc_en": "",
+    "category": "coffee "
   }
 ]

@@ -270,25 +270,10 @@ document.addEventListener("DOMContentLoaded", () => {
       btn._bound = true;
 
       btn.addEventListener("click", () => {
-        const id = parseInt(btn.dataset.id, 10);
-        const prod = allProducts.find((x) => x.id === id);
-        if (!prod) return;
-
-        btn.classList.remove("animate");
-        void btn.offsetWidth; // restart animation
-        btn.classList.add("animate");
-
-        // use discount if present
-        const finalPrice =
-          prod.discount && prod.discount !== "" && prod.discount !== "0"
-            ? prod.discount
-            : prod.price;
-
-        addToCart({
-          title: prod.title_uk,
-          price: finalPrice,
-          id: prod.id,
-        });
+        const id = btn.dataset.id;
+        if (window.shopCart && window.shopCart.addToCartById) {
+          window.shopCart.addToCartById(id);
+        }
       });
     });
   }
@@ -414,7 +399,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // сервер всегда отдаёт sale_price — поэтому приводим всё к discount
       price: (p.price || "0").toString(),
-      discount: (p.discount || p.sale_price || "").toString(),
+      discount: (p.discount || p.sale_price || "").toString(),discount: (p.sale_price && p.sale_price !== "0" ? p.sale_price : p.discount || "").toString(),
+
 
       img: p.img || "",
       desc_uk: p.desc_uk || "",
@@ -430,112 +416,4 @@ document.addEventListener("DOMContentLoaded", () => {
   })();
 
   window.__CATALOG = { allProducts, applyFilters };
-
-  /* ---------- TO TOP button ---------- */
-  const toTop = document.getElementById("toTop");
-
-  // show toTop on scroll
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 300) {
-      toTop.classList.add("show");
-    } else {
-      toTop.classList.remove("show");
-    }
-  });
-
-  toTop.addEventListener("click", () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  });
-
-  /* ========== CART MODAL (open / close) ========== */
-
-  const cartBtn = document.getElementById("cartBtn");
-  const cartModal = document.getElementById("cartModal");
-  const cartClose = document.getElementById("cartClose");
-
-  if (cartBtn) {
-    cartBtn.addEventListener("click", () => {
-      cartModal.style.display = "block";
-    });
-  }
-
-  if (cartClose) {
-    cartClose.addEventListener("click", () => {
-      cartModal.style.display = "none";
-    });
-  }
-
-  window.addEventListener("click", (e) => {
-    if (e.target === cartModal) cartModal.style.display = "none";
-  });
 });
-/* ==== CART LOGIC (global) ==== */
-window.cart = [];
-
-function updateCartUI() {
-  const itemsEl = document.getElementById("cartItems");
-  const totalEl = document.getElementById("cartTotal");
-
-  if (!itemsEl || !totalEl) return;
-
-  itemsEl.innerHTML = "";
-  let total = 0;
-
-  window.cart.forEach((p, i) => {
-    const div = document.createElement("div");
-    div.classList.add("cart-item");
-    div.innerHTML = `
-      <span>${esc(p.title)}</span>
-      <span>${esc(p.price)} ₴</span>
-      <button onclick="removeFromCart(${i})">✕</button>
-    `;
-    total += toNumber(p.price);
-    itemsEl.appendChild(div);
-  });
-
-  totalEl.textContent = "Разом: " + total + " ₴";
-  const countEl = document.getElementById("cartCount");
-  if (countEl) countEl.textContent = window.cart.length;
-}
-
-window.updateCartUI = updateCartUI;
-
-function addToCart(product) {
-  window.cart.push(product);
-  updateCartUI();
-}
-
-function removeFromCart(i) {
-  window.cart.splice(i, 1);
-  updateCartUI();
-}
-
-/* helper available inside cart UI too */
-function esc(str) {
-  if (str === null || str === undefined) return "";
-  return String(str)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/"/g, "&quot;");
-}
-
-function toNumber(val) {
-  const n = parseFloat(
-    String(val || "")
-      .replace(/[^0-9.,-]/g, "")
-      .replace(",", ".")
-  );
-  return Number.isFinite(n) ? n : 0;
-}
-
-function toNumber(val) {
-  const n = parseFloat(
-    String(val || "")
-      .replace(/[^0-9.,-]/g, "")
-      .replace(",", ".")
-  );
-  return Number.isFinite(n) ? n : 0;
-}
