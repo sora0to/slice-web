@@ -22,37 +22,23 @@
         <nav id="nav" class="nav" aria-hidden="true">
           <button class="nav-close" aria-label="Закрити меню">✕</button>
           <a href="index.html#hero" data-uk="Головна" data-en="Home">Головна</a>
-          <a href="index.html#about" data-uk="Про нас" data-en="About us"
-            >Про нас</a
-          >
+          <a href="index.html#about" data-uk="Про нас" data-en="About us">Про нас</a>
           <a href="catalog.html" data-uk="Каталог" data-en="Catalog">Каталог</a>
-          <a href="index.html#contacts" data-uk="Контакти" data-en="Contacts"
-            >Контакти</a
-          >
+          <a href="index.html#contacts" data-uk="Контакти" data-en="Contacts">Контакти</a>
         </nav>
 
-        <button
-          id="cartBtn"
-          class="cart-btn"
-          aria-label="Відкрити корзину"
-          type="button">
-            🛒 <span id="cartCount">0</span>
-          </button>
+        <button id="cartBtn" class="cart-btn" aria-label="Відкрити корзину" type="button">
+          🛒 <span id="cartCount">0</span>
+        </button>
 
         <div class="header-controls">
           <button id="lang-toggle" class="lang-toggle" aria-pressed="false">
             EN
           </button>
-          <button
-            id="burger"
-            class="burger"
-            aria-label="Відкрити меню"
-            aria-controls="nav"
-            aria-expanded="false">
+          <button id="burger" class="burger" aria-label="Відкрити меню" aria-controls="nav" aria-expanded="false">
             <span class="burger-line"></span>
             <span class="burger-line"></span>
             <span class="burger-line"></span>
-          </button>
           </button>
         </div>
       </div>
@@ -65,37 +51,53 @@
           <h1 data-uk="Каталог товарів" data-en="Product Catalog">
             Каталог товарів
           </h1>
-          <div class="catalog-controls">
-            <input
-              id="searchInput"
-              type="search"
-              placeholder="Пошук товарів..."
-              data-uk="Пошук товарів..."
-              data-en="Search products..."
-              aria-label="Search products"
-            />
-            <select id="categorySelect" aria-label="Filter by category">
-              <option data-uk="Усі категорії" data-en="All categories" value="">
-                Усі категорії
-              </option>
-            </select>
-            <select id="sortSelect" aria-label="Sort products">
-              <option value="default" data-uk="Сортування" data-en="Sorting">
-                Сортування
-              </option>
-              <option value="price-asc" data-uk="Ціна ↑" data-en="Price ↑">
-                Ціна ↑
-              </option>
-              <option value="price-desc" data-uk="Ціна ↓" data-en="Price ↓">
-                Ціна ↓
-              </option>
-              <option value="title-asc" data-uk="Назва A→Z" data-en="Name A→Z">
-                Назва A→Z
-              </option>
-              <option value="title-desc" data-uk="Назва Z→A" data-en="Name Z→A">
-                Назва Z→A
-              </option>
-            </select>
+          <button class="filter-toggle-mobile">Фільтри ⌄</button>
+          <div class="filter-panel">
+            <div class="catalog-controls">
+              <input
+                id="searchInput"
+                type="search"
+                placeholder="Пошук товарів..."
+                data-uk="Пошук товарів..."
+                data-en="Search products..."
+                aria-label="Search products"
+              />
+
+              <select id="categorySelect" aria-label="Filter by category">
+                <option
+                  data-uk="Усі категорії"
+                  data-en="All categories"
+                  value=""
+                >
+                  Усі категорії
+                </option>
+              </select>
+              <select id="sortSelect" aria-label="Sort products">
+                <option value="default" data-uk="Сортування" data-en="Sorting">
+                  Сортування
+                </option>
+                <option value="price-asc" data-uk="Ціна ↑" data-en="Price ↑">
+                  Ціна ↑
+                </option>
+                <option value="price-desc" data-uk="Ціна ↓" data-en="Price ↓">
+                  Ціна ↓
+                </option>
+                <option
+                  value="title-asc"
+                  data-uk="Назва A→Z"
+                  data-en="Name A→Z"
+                >
+                  Назва A→Z
+                </option>
+                <option
+                  value="title-desc"
+                  data-uk="Назва Z→A"
+                  data-en="Name Z→A"
+                >
+                  Назва Z→A
+                </option>
+              </select>
+            </div>
           </div>
 
           <div
@@ -188,7 +190,9 @@
                   background: var(--accent);
                   color: #00306a;
                   font-weight: 700;
-                  cursor: pointer;">
+                  cursor: pointer;
+                "
+              >
                 Закрити
               </button>
             </div>
@@ -248,7 +252,7 @@
             <input type="email" name="email" required />
           </label>
 
-          <button id="checkout-button"  type="submit" class="checkout-submit">
+          <button id="checkout-button" type="submit" class="checkout-submit">
             Відправити замовлення
           </button>
         </form>

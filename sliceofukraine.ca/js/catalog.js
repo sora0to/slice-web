@@ -399,8 +399,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // сервер всегда отдаёт sale_price — поэтому приводим всё к discount
       price: (p.price || "0").toString(),
-      discount: (p.discount || p.sale_price || "").toString(),discount: (p.sale_price && p.sale_price !== "0" ? p.sale_price : p.discount || "").toString(),
-
+      discount: (p.discount || p.sale_price || "").toString(),
+      discount: (p.sale_price && p.sale_price !== "0"
+        ? p.sale_price
+        : p.discount || ""
+      ).toString(),
 
       img: p.img || "",
       desc_uk: p.desc_uk || "",
@@ -416,4 +419,25 @@ document.addEventListener("DOMContentLoaded", () => {
   })();
 
   window.__CATALOG = { allProducts, applyFilters };
+
+  // ---- MOBILE FILTER PANEL ----
+  const mobileToggleBtn = document.querySelector(".filter-toggle-mobile");
+  const filterPanel = document.querySelector(".filter-panel");
+
+  if (mobileToggleBtn && filterPanel) {
+    mobileToggleBtn.addEventListener("click", () => {
+      filterPanel.classList.toggle("show");
+    });
+
+    // Закрытие тапом вне панели
+    document.addEventListener("click", (e) => {
+      if (
+        filterPanel.classList.contains("show") &&
+        !filterPanel.contains(e.target) &&
+        !mobileToggleBtn.contains(e.target)
+      ) {
+        filterPanel.classList.remove("show");
+      }
+    });
+  }
 });
