@@ -947,6 +947,63 @@ footer {
   text-align: center;
 }
 
+/* Filter panel */
+.filter-wrapper {
+  position: relative;
+  height: auto;
+}
+
+.filter-panel {
+  position: sticky;
+  top: 100px; 
+  z-index: 50;
+  background: white;
+  padding: 12px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+}
+
+.filter-toggle-mobile {
+  display: none;
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+  background: var(--accent);
+  color: #00306a;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+
+  .filter-toggle-mobile {
+    display: block;
+  }
+
+
+  .filter-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    background: white;
+    padding: 20px;
+    z-index: 200;
+    border-radius: 0 0 12px 12px;
+    transform: translateY(-110%);
+    transition: transform .28s ease;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+  }
+
+  .filter-panel.show {
+    transform: translateY(0);
+  }
+}
+
+
 /* TO TOP */
 .to-top {
   position: fixed;
