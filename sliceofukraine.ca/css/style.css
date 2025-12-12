@@ -314,7 +314,7 @@ section {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 120px 16px 80px;
+  padding: 30px 16px 80px;
   overflow: hidden;
 }
 section .inner {
@@ -419,15 +419,15 @@ section .inner {
 }
 
 .catalog_inner {
-  display: grid;
-  grid-template-columns: 260px 1fr;
-  gap: 20px;
-  align-items: start;
+  /* display: grid;
+  grid-template-columns: 250px 1fr; */
+  /* gap: 20px; */
+  /* align-items: start; */
 }
 
 /* Левая колонка — панель фильтров */
 .catalog-controls {
-  grid-column: 1;
+  /* grid-column: 1; */
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -490,14 +490,14 @@ section .inner {
 }
 
 /* Правая колонка — товары */
-.catalog_inner > h1,
+/* .catalog_inner > h1,
 .catalog_inner > #catalogGrid,
 .catalog_inner > div:last-child {
   grid-column: 2;
-}
+} */
 
 /* Адаптив: мобилка — всё в колонку */
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
   .catalog_inner {
     grid-template-columns: 1fr;
   }
@@ -510,7 +510,7 @@ section .inner {
   .catalog_inner > div:last-child {
     grid-column: 1;
   }
-}
+} */
 
 /* Фон модалки */
 #productModal {
@@ -949,18 +949,20 @@ footer {
 
 /* Filter panel */
 .filter-wrapper {
+  width: 100%;
   position: relative;
+  margin-top: 20px;
   height: auto;
 }
 
+/* На десктопе фильтры просто стоят сверху (можно оставить sticky, но не обязательно) */
 .filter-panel {
-  position: sticky;
-  top: 100px; 
+  position: static;
   z-index: 50;
   background: white;
   padding: 12px;
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
 }
 
 .filter-toggle-mobile {
@@ -976,62 +978,60 @@ footer {
   cursor: pointer;
 }
 
+/* Мобильное поведение */
 @media (max-width: 768px) {
-
+  /* Кнопка "Фільтри" — фиксирована под шапкой */
   .filter-toggle-mobile {
     display: block;
-  }
-
-
-  .filter-panel {
     position: fixed;
-    top: 0;
+    top: 100px; /* примерно под header */
     left: 0;
+    right: 0;
     width: 100%;
-    height: auto;
-    background: white;
-    padding: 20px;
-    z-index: 200;
-    border-radius: 0 0 12px 12px;
-    transform: translateY(-110%);
-    transition: transform .28s ease;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    margin: 0;
+    border-radius: 0;
+    z-index: 1400;
   }
 
-  .filter-panel.show {
-    transform: translateY(0);
+  /* Чтобы контент не залезал под кнопку */
+  .filter-wrapper {
+    margin-top: 110px; /* с запасом под кнопку */
+  }
+
+  /* Сами фильтры — обычный блок наверху страницы */
+  .filter-panel {
+    position: static;
+    padding: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    border-radius: 10px;
   }
 }
 
-
-/* TO TOP */
-.to-top {
-  position: fixed;
-  right: 25px;
-  bottom: 25px;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: #1e88e5;
-  color: white;
-  font-size: 22px;
-  border: none;
-  outline: none;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  z-index: 1000;
+/* Кнопка "До фільтрів" на десктопе */
+.filter-jump-desktop {
+  display: none;
 }
 
-.to-top.show {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0);
-}
+@media (min-width: 769px) {
+  .filter-jump-desktop {
+    display: inline-flex;
+    position: fixed;
+    right: 24px;
+    bottom: 90px;
+    padding: 10px 16px;
+    background: var(--accent);
+    color: #00306a;
+    border: none;
+    border-radius: 999px;
+    font-weight: 700;
+    cursor: pointer;
+    z-index: 1500;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  }
 
-.to-top:hover {
-  background: #1565c0;
+  .filter-jump-desktop:hover {
+    transform: translateY(-2px);
+  }
 }
 
 /* Responsive / mobile overlay nav */
@@ -1113,11 +1113,30 @@ footer {
   transform: translateY(-6px) rotate(-45deg);
 }
 /* sale price styles */
-.price { font-size: 18px; font-weight: 700; margin: 8px 0; text-align:center; }
-.old-price { color: #888; text-decoration: line-through; margin-right: 8px; font-weight:500; }
-.new-price { color: #d62828; font-weight: 800; }
-.product.sale { position: relative; }
-.product.sale .new-price { background: rgba(214,40,40,0.06); padding: 2px 6px; border-radius:4px; }
+.price {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 8px 0;
+  text-align: center;
+}
+.old-price {
+  color: #888;
+  text-decoration: line-through;
+  margin-right: 8px;
+  font-weight: 500;
+}
+.new-price {
+  color: #d62828;
+  font-weight: 800;
+}
+.product.sale {
+  position: relative;
+}
+.product.sale .new-price {
+  background: rgba(214, 40, 40, 0.06);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
 .product.sale::before {
   content: "ЗНИЖКА";
   position: absolute;
@@ -1129,5 +1148,5 @@ footer {
   font-size: 12px;
   font-weight: 700;
   transform: rotate(-15deg);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
