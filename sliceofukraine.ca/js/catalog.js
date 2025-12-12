@@ -265,17 +265,18 @@ document.addEventListener("DOMContentLoaded", () => {
         openModal(prod);
       });
     });
-    catalogGrid.querySelectorAll(".btn-add").forEach((btn) => {
-      if (btn._bound) return;
-      btn._bound = true;
+    // old cart adding logic (disabled)
+    // catalogGrid.querySelectorAll(".btn-add").forEach((btn) => {
+    //   if (btn._bound) return;
+    //   btn._bound = true;
 
-      btn.addEventListener("click", () => {
-        const id = btn.dataset.id;
-        if (window.shopCart && window.shopCart.addToCartById) {
-          window.shopCart.addToCartById(id);
-        }
-      });
-    });
+    //   btn.addEventListener("click", () => {
+    //     const id = btn.dataset.id;
+    //     if (window.shopCart && window.shopCart.addToCartById) {
+    //       window.shopCart.addToCartById(id);
+    //     }
+    //   });
+    // });
   }
 
   function applyRevealForNew() {
