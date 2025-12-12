@@ -1,249 +1,202 @@
 <!DOCTYPE html>
 <html lang="uk">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Slice of Ukraine</title>
-    <link rel="icon" type="image/svg+xml" href="img/download.svg" />
-    <link rel="icon" type="image/png" href="img/logo.png" sizes="32x32" />
-    <link rel="stylesheet" href="css/normalize.css" />
-    <link rel="stylesheet" href="css/style.css" />
-  </head>
-  <body>
-    <header>
-      <div class="site-inner header-inner">
-        <a href="index.html">
-          <div class="logo">
-            <img src="img/vartical-llogo.svg" alt="" />
-            Slice of Ukraine
-          </div>
-        </a>
 
-        <nav id="nav" class="nav" aria-hidden="true">
-          <button class="nav-close" aria-label="Закрити меню">✕</button>
-          <a href="#hero" data-uk="Головна" data-en="Home">Головна</a>
-          <a href="#about" data-uk="Про нас" data-en="About us">Про нас</a>
-          <a href="catalog.html" data-uk="Каталог" data-en="Catalog">Каталог</a>
-          <a href="#contacts" data-uk="Контакти" data-en="Contacts">Контакти</a>
-        </nav>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Slice of Ukraine</title>
+  <link rel="icon" type="image/svg+xml" href="img/download.svg" />
+  <link rel="icon" type="image/png" href="img/logo.png" sizes="32x32" />
+  <link rel="stylesheet" href="css/normalize.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
 
-        <div class="header-controls">
-          <button id="lang-toggle" class="lang-toggle" aria-pressed="false">
-            EN
-          </button>
-          <button
-            id="burger"
-            class="burger"
-            aria-label="Відкрити меню"
-            aria-controls="nav"
-            aria-expanded="false"
-          >
-            <span class="burger-line"></span><span class="burger-line"></span
-            ><span class="burger-line"></span>
-          </button>
+<body>
+  <header>
+    <div class="site-inner header-inner">
+      <a href="index.html">
+        <div class="logo">
+          <img src="img/vartical-llogo.svg" alt="" />
+          Slice of Ukraine
         </div>
-      </div>
-    </header>
+      </a>
 
-    <!-- HERO -->
-    <section class="hero" id="hero" aria-label="Hero section">
-      <div class="hero-slider" aria-hidden="true">
-        <div
-          class="slide active"
-          style="
+      <nav id="nav" class="nav" aria-hidden="true">
+        <button class="nav-close" aria-label="Закрити меню">✕</button>
+        <a href="#hero" data-uk="Головна" data-en="Home">Головна</a>
+        <a href="#about" data-uk="Про нас" data-en="About us">Про нас</a>
+        <a href="catalog.html" data-uk="Каталог" data-en="Catalog">Каталог</a>
+        <a href="#contacts" data-uk="Контакти" data-en="Contacts">Контакти</a>
+      </nav>
+
+      <div class="header-controls">
+        <button id="lang-toggle" class="lang-toggle" aria-pressed="false">
+          EN
+        </button>
+        <button id="burger" class="burger" aria-label="Відкрити меню" aria-controls="nav" aria-expanded="false">
+          <span class="burger-line"></span><span class="burger-line"></span><span class="burger-line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="hero" aria-label="Hero section">
+    <div class="hero-slider" aria-hidden="true">
+      <div class="slide active" style="
             background-image: url('img/assets_task_01k3bcracqfb2vr6gcjwp8t05v_1755950474_img_0.webp');
-          "
-        ></div>
-        <div
-          class="slide"
-          style="
+          "></div>
+      <div class="slide" style="
             background-image: url('img/assets_task_01k3fayefbedss8sftyvwfgt5r_1756082797_img_1.webp');
-          "
-        ></div>
-        <div
-          class="slide"
-          style="
+          "></div>
+      <div class="slide" style="
             background-image: url('img/assets_task_01k3fb802gf059vvgb4q4etmy4_1756083135_img_0.webp');
-          "
-        ></div>
-        <div
-          class="slide"
-          style="
+          "></div>
+      <div class="slide" style="
             background-image: url('img/assets_task_01k3fayefbedss8sftyvwfgt5r_1756082797_img_0.webp');
-          "
-        ></div>
-        <div
-          class="slide"
-          style="
+          "></div>
+      <div class="slide" style="
             background-image: url('img/assets_task_01k3fc27w8eqybhdc12k4zma60_1756083970_img_1.webp');
-          "
-        ></div>
+          "></div>
+    </div>
+
+    <button class="prev" aria-label="Previous slide">&#10094;</button>
+    <button class="next" aria-label="Next slide">&#10095;</button>
+
+    <div class="dots" role="tablist" aria-label="Slider navigation">
+      <button class="dot active" data-index="0" aria-label="Slide 1"></button>
+      <button class="dot" data-index="1" aria-label="Slide 2"></button>
+      <button class="dot" data-index="2" aria-label="Slide 3"></button>
+      <button class="dot" data-index="3" aria-label="Slide 4"></button>
+      <button class="dot" data-index="4" aria-label="Slide 5"></button>
+    </div>
+
+    <div class="hero-content">
+      <div class="img_container">
+        <img src="img/header-logo.svg" alt="" />
       </div>
+      <h1 data-uk="Смачного!" data-en="Enjoy your meal!">Смачного!</h1>
+      <p data-uk="Натуральні українські товари прямо до вашого столу."
+        data-en="Authentic Ukrainian products delivered to your table.">
+        Натуральні українські товари прямо до вашого столу.
+      </p>
+    </div>
+  </section>
 
-      <button class="prev" aria-label="Previous slide">&#10094;</button>
-      <button class="next" aria-label="Next slide">&#10095;</button>
-
-      <div class="dots" role="tablist" aria-label="Slider navigation">
-        <button class="dot active" data-index="0" aria-label="Slide 1"></button>
-        <button class="dot" data-index="1" aria-label="Slide 2"></button>
-        <button class="dot" data-index="2" aria-label="Slide 3"></button>
-        <button class="dot" data-index="3" aria-label="Slide 4"></button>
-        <button class="dot" data-index="4" aria-label="Slide 5"></button>
-      </div>
-
-      <div class="hero-content">
-        <div class="img_container">
-          <img src="img/header-logo.svg" alt="" />
-        </div>
-        <h1 data-uk="Смачного!" data-en="Enjoy your meal!">Смачного!</h1>
-        <p
-          data-uk="Натуральні українські товари прямо до вашого столу."
-          data-en="Authentic Ukrainian products delivered to your table."
-        >
-          Натуральні українські товари прямо до вашого столу.
-        </p>
-      </div>
-    </section>
-
-    <main class="site">
-      <!-- ABOUT -->
-      <section
-        class="about parallax-section fade-section"
-        id="about"
-        data-parallax-speed="0.12"
-      >
-        <div
-          class="parallax-bg"
-          style="
+  <main class="site">
+    <!-- ABOUT -->
+    <section class="about parallax-section fade-section" id="about" data-parallax-speed="0.12">
+      <div class="parallax-bg" style="
             background-image: url('img/seryj_odnotonnyj_fon_138531_1920x1080.jpg');
-          "
-        ></div>
-        <div class="inner inner_about">
-          <div class="img_block">
-            <img src="img/photo_2025-06-06_16-31-58.svg" alt="About us" />
-          </div>
-          <div class="text_block">
-            <h2 class="about_header" data-uk="Про нас" data-en="About Us">
-              Про нас
-            </h2>
-            <p
-              class="about_text"
-              data-uk="Ми спеціалізуємося на найкращих українських продуктах: сири, ковбаси, мед та солодощі.
+          "></div>
+      <div class="inner inner_about">
+        <div class="img_block">
+          <img src="img/photo_2025-06-06_16-31-58.svg" alt="About us" />
+        </div>
+        <div class="text_block">
+          <h2 class="about_header" data-uk="Про нас" data-en="About Us">
+            Про нас
+          </h2>
+          <p class="about_text"
+            data-uk="Ми спеціалізуємося на найкращих українських продуктах: сири, ковбаси, мед та солодощі.
           Lorem, ipsum dolor sit amet consectetur adipisicing elit. Reiciendis neque rem beatae fugiat? Sunt mollitia dolorum facere voluptas amet! Soluta, aspernatur fugit! Nihil odit hic dolor minima sapiente ipsa recusandae.
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem, nulla vel voluptatum eius nostrum ad dolor doloribus ipsam corporis quod vero repellendus culpa maxime distinctio totam consectetur nesciunt? Necessitatibus, temporibus!
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Culpa mollitia qui animi in perferendis. Reprehenderit modi ipsam, blanditiis, laudantium odio voluptatum voluptatem est sint illum voluptatibus eos quas laborum harum."
-              data-en="We specialize in the best Ukrainian products: cheeses, sausages, honey, and sweets.
+            data-en="We specialize in the best Ukrainian products: cheeses, sausages, honey, and sweets.
             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Reiciendis neque rem beatae fugiat? Sunt mollitia dolorum facere voluptas amet! Soluta, aspernatur fugit! Nihil odit hic dolor minima sapiente ipsa recusandae.
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem, nulla vel voluptatum eius nostrum ad dolor doloribus ipsam corporis quod vero repellendus culpa maxime distinctio totam consectetur nesciunt? Necessitatibus, temporibus!
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Culpa mollitia qui animi in perferendis. Reprehenderit modi ipsam, blanditiis, laudantium odio voluptatum voluptatem est sint illum voluptatibus eos quas laborum harum.
-            "
-            >
-              Ми спеціалізуємося на найкращих українських продуктах: сири,
-              ковбаси, мед та солодощі. Lorem, ipsum dolor sit amet consectetur
-              adipisicing elit. Reiciendis neque rem beatae fugiat? Sunt
-              mollitia dolorum facere voluptas amet! Soluta, aspernatur fugit!
-              Nihil odit hic dolor minima sapiente ipsa recusandae. Lorem ipsum
-              dolor sit amet consectetur adipisicing elit. Rem, nulla vel
-              voluptatum eius nostrum ad dolor doloribus ipsam corporis quod
-              vero repellendus culpa maxime distinctio totam consectetur
-              nesciunt? Necessitatibus, temporibus! Lorem ipsum dolor, sit amet
-              consectetur adipisicing elit. Culpa mollitia qui animi in
-              perferendis. Reprehenderit modi ipsam, blanditiis, laudantium odio
-              voluptatum voluptatem est sint illum voluptatibus eos quas laborum
-              harum.
-            </p>
-          </div>
+            ">
+            Ми спеціалізуємося на найкращих українських продуктах: сири,
+            ковбаси, мед та солодощі. Lorem, ipsum dolor sit amet consectetur
+            adipisicing elit. Reiciendis neque rem beatae fugiat? Sunt
+            mollitia dolorum facere voluptas amet! Soluta, aspernatur fugit!
+            Nihil odit hic dolor minima sapiente ipsa recusandae. Lorem ipsum
+            dolor sit amet consectetur adipisicing elit. Rem, nulla vel
+            voluptatum eius nostrum ad dolor doloribus ipsam corporis quod
+            vero repellendus culpa maxime distinctio totam consectetur
+            nesciunt? Necessitatibus, temporibus! Lorem ipsum dolor, sit amet
+            consectetur adipisicing elit. Culpa mollitia qui animi in
+            perferendis. Reprehenderit modi ipsam, blanditiis, laudantium odio
+            voluptatum voluptatem est sint illum voluptatibus eos quas laborum
+            harum.
+          </p>
         </div>
-      </section>
-
-      <!-- CATALOG PREVIEW -->
-      <section
-        class="catalog parallax-section fade-section"
-        id="catalog"
-        data-parallax-speed="0.08"
-      >
-        <div
-          class="parallax-bg"
-          style="
-            background-image: url('https://images.unsplash.com/photo-1598515213694-8b7a7f52d2b6?auto=format&fit=crop&w=1600&q=80');
-          "
-        ></div>
-        <div class="inner">
-          <div class="products-carousel-section">
-            <h2 data-uk="Наші товари" data-en="Our products">Наші товари</h2>
-
-            <div class="carousel-wrapper">
-              <div class="carousel-track" id="carouselTrack"></div>
-            </div>
-          </div>
-
-          <div class="catalog-actions">
-            <a
-              href="catalog.html"
-              class="btn-view-catalog"
-              data-uk="Переглянути каталог"
-              data-en="View catalog"
-              >Переглянути каталог</a
-            >
-          </div>
-        </div>
-      </section>
-
-      <!-- CONTACTS -->
-      <section class="contacts fade-section" id="contacts">
-        <div class="inner">
-          <h2 data-uk="Контакти" data-en="Contacts">Контакти</h2>
-          <div class="contacts_text_block">
-            <a href="index.html"
-              ><p><img src="img/icons/url.svg" alt="" />sliceofukraine.ca</p></a
-            >
-            <a href="#"
-              ><p>
-                <img src="img/icons/phone-call.svg" alt="" />587-473-2282
-              </p></a
-            >
-            <a href="#">
-              <p>
-                <img src="img/icons/at.svg" alt="" />sliceofukraine@gmail.com
-              </p></a
-            >
-            <a href="https://www.instagram.com/sliceofukraine/"
-              ><p>
-                <img src="img/icons/instagram.svg" alt="" />@sliceofukraine
-              </p></a
-            >
-            <a href="https://www.facebook.com/sliceofukraineinc/"
-              ><p>
-                <img src="img/icons/facebook.svg" alt="" />Slice of Ukraine Inc.
-              </p></a
-            >
-          </div>
-          <div class="map-wrapper" style="margin-top: 40px">
-            <h3 style="text-align: center; margin-bottom: 20px">Наш магазин</h3>
-
-            <div style="width: 100%; height: 400px">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4735.358343321906!2d-113.47054422292932!3d53.599185955774814!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x53a0237870bb691d%3A0xa839ad9d7559d1e6!2sSlice%20of%20Ukraine!5e0!3m2!1sru!2sca!4v1763943613160!5m2!1sru!2sca"
-                width="100%"
-                height="450"
-                style="border: 0"
-                allowfullscreen=""
-                loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"
-              ></iframe>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <footer>
-      <div class="site-inner">
-        <p>&copy; 2025 Slice of Ukraine</p>
-        <p>Made with ♥ by Sora0t0</p>
       </div>
-    </footer>
-    <button id="toTop" class="to-top" aria-label="Back to top">↑</button>
-    <script src="js/script.js" defer></script>
-  </body>
+    </section>
+
+    <!-- CATALOG PREVIEW -->
+    <section class="catalog parallax-section fade-section" id="catalog" data-parallax-speed="0.08">
+      <div class="parallax-bg" style="
+            background-image: url('https://images.unsplash.com/photo-1598515213694-8b7a7f52d2b6?auto=format&fit=crop&w=1600&q=80');
+          "></div>
+      <div class="inner">
+        <div class="products-carousel-section">
+          <h2 data-uk="Наші товари" data-en="Our products">Наші товари</h2>
+
+          <div class="carousel-wrapper">
+            <div class="carousel-track" id="carouselTrack"></div>
+          </div>
+        </div>
+
+        <div class="catalog-actions">
+          <a href="catalog.html" class="btn-view-catalog" data-uk="Переглянути каталог"
+            data-en="View catalog">Переглянути каталог</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACTS -->
+    <section class="contacts fade-section" id="contacts">
+      <div class="inner">
+        <h2 data-uk="Контакти" data-en="Contacts">Контакти</h2>
+        <div class="contacts_text_block">
+          <a href="index.html">
+            <p><img src="img/icons/url.svg" alt="" />sliceofukraine.ca</p>
+          </a>
+          <a href="#">
+            <p>
+              <img src="img/icons/phone-call.svg" alt="" />587-473-2282
+            </p>
+          </a>
+          <a href="#">
+            <p>
+              <img src="img/icons/at.svg" alt="" />sliceofukraine@gmail.com
+            </p>
+          </a>
+          <a href="https://www.instagram.com/sliceofukraine/">
+            <p>
+              <img src="img/icons/instagram.svg" alt="" />@sliceofukraine
+            </p>
+          </a>
+          <a href="https://www.facebook.com/sliceofukraineinc/">
+            <p>
+              <img src="img/icons/facebook.svg" alt="" />Slice of Ukraine Inc.
+            </p>
+          </a>
+        </div>
+        <div class="map-wrapper" style="margin-top: 40px">
+          <h3 style="text-align: center; margin-bottom: 20px">Наш магазин</h3>
+
+          <div style="width: 100%; height: 400px">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4735.358343321906!2d-113.47054422292932!3d53.599185955774814!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x53a0237870bb691d%3A0xa839ad9d7559d1e6!2sSlice%20of%20Ukraine!5e0!3m2!1sru!2sca!4v1763943613160!5m2!1sru!2sca"
+              width="100%" height="450" style="border: 0" allowfullscreen="" loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="site-inner">
+      <p>&copy; 2025 Slice of Ukraine</p>
+      <p>Made with ♥ by Sora0t0</p>
+    </div>
+  </footer>
+  <button id="toTop" class="to-top" aria-label="Back to top">↑</button>
+  <script src="js/script.js" defer></script>
+</body>
+
 </html>

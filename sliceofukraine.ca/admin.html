@@ -1,255 +1,250 @@
 <!DOCTYPE html>
 <html lang="ru">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Admin — Catalog</title>
-    <link rel="stylesheet" href="css/admin.css" />
-    <style>
-      /* Простая мобильная вёрстка */
-      body {
-        font-family: Arial, Helvetica, sans-serif;
-        margin: 0;
-        padding: 0;
-        background: #f7f7f7;
-      }
-      .wrap {
-        max-width: 980px;
-        margin: 12px auto;
-        padding: 12px;
-        background: #fff;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-      }
-      h1 {
-        font-size: 20px;
-        margin: 0 0 12px;
-      }
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin — Catalog</title>
+  <link rel="stylesheet" href="css/admin.css" />
+  <style>
+    /* Простая мобильная вёрстка */
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f7f7f7;
+    }
+
+    .wrap {
+      max-width: 980px;
+      margin: 12px auto;
+      padding: 12px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    h1 {
+      font-size: 20px;
+      margin: 0 0 12px;
+    }
+
+    .row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .col {
+      flex: 1;
+      min-width: 220px;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 8px;
+      margin: 6px 0;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+    }
+
+    button {
+      padding: 10px 12px;
+      border: 0;
+      border-radius: 8px;
+      background: #007bff;
+      color: #fff;
+    }
+
+    .list {
+      margin-top: 16px;
+    }
+
+    .item {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding: 8px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .item img {
+      width: 64px;
+      height: 64px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+
+    .controls button {
+      margin-right: 6px;
+    }
+
+    .small {
+      font-size: 13px;
+      color: #666;
+    }
+
+    .danger {
+      background: #e53935;
+    }
+
+    .success {
+      background: #43a047;
+    }
+
+    .login {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    @media (max-width: 520px) {
       .row {
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
+        flex-direction: column;
       }
-      .col {
-        flex: 1;
-        min-width: 220px;
-      }
-      input,
-      textarea,
-      select {
-        width: 100%;
-        padding: 8px;
-        margin: 6px 0;
-        border: 1px solid #ddd;
-        border-radius: 6px;
-      }
-      button {
-        padding: 10px 12px;
-        border: 0;
-        border-radius: 8px;
-        background: #007bff;
-        color: #fff;
-      }
-      .list {
-        margin-top: 16px;
-      }
+
       .item {
-        display: flex;
-        gap: 12px;
-        align-items: center;
-        padding: 8px;
-        border-bottom: 1px solid #eee;
+        flex-direction: column;
+        align-items: flex-start;
       }
+
       .item img {
-        width: 64px;
-        height: 64px;
-        object-fit: cover;
-        border-radius: 6px;
+        width: 100%;
+        height: 160px;
       }
-      .controls button {
-        margin-right: 6px;
-      }
-      .small {
-        font-size: 13px;
-        color: #666;
-      }
-      .danger {
-        background: #e53935;
-      }
-      .success {
-        background: #43a047;
-      }
-      .login {
-        display: flex;
-        gap: 8px;
-        align-items: center;
-      }
-      @media (max-width: 520px) {
-        .row {
-          flex-direction: column;
-        }
-        .item {
-          flex-direction: column;
-          align-items: flex-start;
-        }
-        .item img {
-          width: 100%;
-          height: 160px;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="wrap">
-      <h1>Адмін-панель.</h1>
+    }
+  </style>
+</head>
 
-      <div id="loginBox">
-        <div class="login">
-          <input
-            id="pass"
-            type="password"
-            placeholder="Пароль администратора"
-          />
-          <button id="loginBtn">Увійти</button>
-        </div>
-        <div class="small"></div>
+<body>
+  <div class="wrap">
+    <h1>Адмін-панель.</h1>
+
+    <div id="loginBox">
+      <div class="login">
+        <input id="pass" type="password" placeholder="Пароль администратора" />
+        <button id="loginBtn">Увійти</button>
       </div>
+      <div class="small"></div>
+    </div>
 
-      <div id="adminUI" style="display: none">
-        <section>
-          <h2>Додати / Редагувати товар</h2>
-          <form id="productForm">
-            <input type="hidden" id="prodId" />
-            <div class="row">
-              <div class="col">
-                <input id="title_uk" placeholder="Назва (укр)" />
-                <input id="title_en" placeholder="Title (en)" />
-                <input id="category" placeholder="Категорія" />
-                <input id="price" placeholder="Ціна" />
-                <input
-                  id="discount"
-                  placeholder="Знижкова ціна (опціонально)"
-                />
-              </div>
-              <div class="col">
-                <input
-                  id="imgUrl"
-                  placeholder="URL зображення (якщо не завантажуєте файл)"
-                />
-                <div style="margin-top: 6px">
-                  <input id="imgFile" type="file" accept="image/*" />
-                </div>
-                <textarea id="desc_uk" placeholder="Опис (укр)"></textarea>
-                <textarea
-                  id="desc_en"
-                  placeholder="Description (en)"
-                ></textarea>
-              </div>
+    <div id="adminUI" style="display: none">
+      <section>
+        <h2>Додати / Редагувати товар</h2>
+        <form id="productForm">
+          <input type="hidden" id="prodId" />
+          <div class="row">
+            <div class="col">
+              <input id="title_uk" placeholder="Назва (укр)" />
+              <input id="title_en" placeholder="Title (en)" />
+              <input id="category" placeholder="Категорія" />
+              <input id="price" placeholder="Ціна" />
+              <input id="discount" placeholder="Знижкова ціна (опціонально)" />
             </div>
-            <div style="margin-top: 8px">
-              <button id="saveBtn" type="button">Зберегти</button>
-              <button id="clearBtn" type="button" style="background: #6c757d">
-                Очистити
-              </button>
-              <button
-                id="logoutBtn"
-                type="button"
-                class="danger"
-                style="float: right"
-              >
-                Вийти
-              </button>
+            <div class="col">
+              <input id="imgUrl" placeholder="URL зображення (якщо не завантажуєте файл)" />
+              <div style="margin-top: 6px">
+                <input id="imgFile" type="file" accept="image/*" />
+              </div>
+              <textarea id="desc_uk" placeholder="Опис (укр)"></textarea>
+              <textarea id="desc_en" placeholder="Description (en)"></textarea>
             </div>
-          </form>
-        </section>
-        <!-- ПОИСК -->
-        <input
-          id="searchBox"
-          placeholder="Пошук товарів..."
-          style="
+          </div>
+          <div style="margin-top: 8px">
+            <button id="saveBtn" type="button">Зберегти</button>
+            <button id="clearBtn" type="button" style="background: #6c757d">
+              Очистити
+            </button>
+            <button id="logoutBtn" type="button" class="danger" style="float: right">
+              Вийти
+            </button>
+          </div>
+        </form>
+      </section>
+      <!-- ПОИСК -->
+      <input id="searchBox" placeholder="Пошук товарів..." style="
             padding: 8px;
             width: 100%;
             margin-bottom: 10px;
             border: 1px solid #ddd;
             border-radius: 6px;
-          "
-        />
-        <section class="list">
-          <h2>Список товарів</h2>
-          <div id="products"></div>
-        </section>
-      </div>
+          " />
+      <section class="list">
+        <h2>Список товарів</h2>
+        <div id="products"></div>
+      </section>
     </div>
+  </div>
 
-    <script>
-      const API = "/api";
-      let isLogged = false;
-      let PRODUCTS = []; // оригинальный список товаров
-
-      document.getElementById("loginBtn").addEventListener("click", login);
-      document.getElementById("saveBtn").addEventListener("click", saveProduct);
-      document.getElementById("clearBtn").addEventListener("click", clearForm);
-      document.getElementById("logoutBtn").addEventListener("click", logout);
-
-      async function login() {
-        const pass = document.getElementById("pass").value;
-        const res = await fetch("/admin/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify({ password: pass }),
-        });
-        if (res.ok) {
-          isLogged = true;
-          document.getElementById("loginBox").style.display = "none";
-          document.getElementById("adminUI").style.display = "block";
-          loadProducts();
-        } else {
-          alert("Неправильний пароль");
-        }
-      }
-
-      async function logout() {
-        await fetch("/admin/logout", {
-          method: "POST",
-          credentials: "include",
-        });
-        location.reload();
-      }
-
-      async function loadProducts() {
-        const res = await fetch(API + "/products", { credentials: "include" });
-        PRODUCTS = await res.json(); // сохраняем оригинальные товары
-        renderList(PRODUCTS);
-      }
-
-      document.getElementById("searchBox").addEventListener("input", (e) => {
-        const q = e.target.value.toLowerCase().trim();
-
-        if (!q) {
-          renderList(PRODUCTS);
-          return;
-        }
-
-        const filtered = PRODUCTS.filter(
-          (p) =>
-            (p.title_uk || "").toLowerCase().includes(q) ||
-            (p.title_en || "").toLowerCase().includes(q) ||
-            (p.category || "").toLowerCase().includes(q) ||
-            (p.desc_uk || "").toLowerCase().includes(q) ||
-            (p.desc_en || "").toLowerCase().includes(q)
-        );
-
-        renderList(filtered);
+  <script>
+    const API = "/api";
+    let isLogged = false;
+    let PRODUCTS = []; // оригинальный список товаров
+    document.getElementById("loginBtn").addEventListener("click", login);
+    document.getElementById("saveBtn").addEventListener("click", saveProduct);
+    document.getElementById("clearBtn").addEventListener("click", clearForm);
+    document.getElementById("logoutBtn").addEventListener("click", logout);
+    async function login() {
+      const pass = document.getElementById("pass").value;
+      const res = await fetch("/admin/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          password: pass
+        }),
       });
+      if (res.ok) {
+        isLogged = true;
+        document.getElementById("loginBox").style.display = "none";
+        document.getElementById("adminUI").style.display = "block";
+        loadProducts();
+      } else {
+        alert("Неправильний пароль");
+      }
+    }
+    async function logout() {
+      await fetch("/admin/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+      location.reload();
+    }
+    async function loadProducts() {
+      const res = await fetch(API + "/products", {
+        credentials: "include"
+      });
+      PRODUCTS = await res.json(); // сохраняем оригинальные товары
+      renderList(PRODUCTS);
+    }
+    document.getElementById("searchBox").addEventListener("input", (e) => {
+      const q = e.target.value.toLowerCase().trim();
+      if (!q) {
+        renderList(PRODUCTS);
+        return;
+      }
+      const filtered = PRODUCTS.filter(
+        (p) =>
+        (p.title_uk || "").toLowerCase().includes(q) ||
+        (p.title_en || "").toLowerCase().includes(q) ||
+        (p.category || "").toLowerCase().includes(q) ||
+        (p.desc_uk || "").toLowerCase().includes(q) ||
+        (p.desc_en || "").toLowerCase().includes(q)
+      );
+      renderList(filtered);
+    });
 
-      function renderList(items) {
-        const root = document.getElementById("products");
-        root.innerHTML = "";
-        items.forEach((p) => {
-          const div = document.createElement("div");
-          div.className = "item";
-          div.innerHTML = `
+    function renderList(items) {
+      const root = document.getElementById("products");
+      root.innerHTML = "";
+      items.forEach((p) => {
+        const div = document.createElement("div");
+        div.className = "item";
+        div.innerHTML = `
       <img src="${p.img || ""}" onerror="this.src='img/placeholder.png'"/>
       <div style="flex:1">
         <strong>${p.title_uk || p.title_en}</strong>
@@ -269,103 +264,102 @@
         })" style="background:#e53935">Видалити</button>
       </div>
     `;
-          root.appendChild(div);
-        });
+        root.appendChild(div);
+      });
+    }
+
+    function clearForm() {
+      [
+        "prodId",
+        "title_uk",
+        "title_en",
+        "price",
+        "discount",
+        "imgUrl",
+        "desc_uk",
+        "desc_en",
+        "category",
+      ].forEach((id) => (document.getElementById(id).value = ""));
+      document.getElementById("imgFile").value = "";
+    }
+    async function saveProduct() {
+      const id = document.getElementById("prodId").value;
+      const formData = new FormData();
+      formData.append("title_uk", document.getElementById("title_uk").value);
+      formData.append("title_en", document.getElementById("title_en").value);
+      formData.append("price", document.getElementById("price").value);
+      formData.append(
+        "discount",
+        document.getElementById("discount").value
+      );
+      formData.append("desc_uk", document.getElementById("desc_uk").value);
+      formData.append("desc_en", document.getElementById("desc_en").value);
+      formData.append("category", document.getElementById("category").value);
+      const file = document.getElementById("imgFile").files[0];
+      const imgUrl = document.getElementById("imgUrl").value;
+      if (file) {
+        formData.append("image", file);
+      } else if (imgUrl) {
+        formData.append("img", imgUrl);
       }
-
-      function clearForm() {
-        [
-          "prodId",
-          "title_uk",
-          "title_en",
-          "price",
-          "discount",
-          "imgUrl",
-          "desc_uk",
-          "desc_en",
-          "category",
-        ].forEach((id) => (document.getElementById(id).value = ""));
-        document.getElementById("imgFile").value = "";
+      let url = API + "/products";
+      let method = "POST";
+      if (id) {
+        url = API + "/products/" + id;
+        method = "PUT";
       }
-
-      async function saveProduct() {
-        const id = document.getElementById("prodId").value;
-        const formData = new FormData();
-        formData.append("title_uk", document.getElementById("title_uk").value);
-        formData.append("title_en", document.getElementById("title_en").value);
-        formData.append("price", document.getElementById("price").value);
-        formData.append(
-          "discount",
-          document.getElementById("discount").value
-        );
-        formData.append("desc_uk", document.getElementById("desc_uk").value);
-        formData.append("desc_en", document.getElementById("desc_en").value);
-        formData.append("category", document.getElementById("category").value);
-
-        const file = document.getElementById("imgFile").files[0];
-        const imgUrl = document.getElementById("imgUrl").value;
-
-        if (file) {
-          formData.append("image", file);
-        } else if (imgUrl) {
-          formData.append("img", imgUrl);
-        }
-
-        let url = API + "/products";
-        let method = "POST";
-        if (id) {
-          url = API + "/products/" + id;
-          method = "PUT";
-        }
-
-        const res = await fetch(url, {
-          method,
-          body: formData,
-          credentials: "include",
-        });
-        if (res.ok) {
-          alert("Збережено успішно");
-          clearForm();
-          loadProducts();
-        } else {
-          const err = await res.json().catch(() => ({ error: "Ошибка" }));
-          alert("Ошибка: " + (err.error || JSON.stringify(err)));
-        }
+      const res = await fetch(url, {
+        method,
+        body: formData,
+        credentials: "include",
+      });
+      if (res.ok) {
+        alert("Збережено успішно");
+        clearForm();
+        loadProducts();
+      } else {
+        const err = await res.json().catch(() => ({
+          error: "Ошибка"
+        }));
+        alert("Ошибка: " + (err.error || JSON.stringify(err)));
       }
-
-      async function edit(id) {
-        const res = await fetch(API + "/products/" + id, {
-          credentials: "include",
-        });
-        if (!res.ok) {
-          alert("Неможливо завантажити товар");
-          return;
-        }
-        const p = await res.json();
-        document.getElementById("prodId").value = p.id;
-        document.getElementById("title_uk").value = p.title_uk || "";
-        document.getElementById("title_en").value = p.title_en || "";
-        document.getElementById("price").value = p.price || "";
-        document.getElementById("discount").value = p.discount || "";
-        document.getElementById("imgUrl").value = p.img || "";
-        document.getElementById("desc_uk").value = p.desc_uk || "";
-        document.getElementById("desc_en").value = p.desc_en || "";
-        document.getElementById("category").value = p.category || "";
-        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+    async function edit(id) {
+      const res = await fetch(API + "/products/" + id, {
+        credentials: "include",
+      });
+      if (!res.ok) {
+        alert("Неможливо завантажити товар");
+        return;
       }
-
-      async function del(id) {
-        if (!confirm("Видалити товар?")) return;
-        const res = await fetch(API + "/products/" + id, {
-          method: "DELETE",
-          credentials: "include",
-        });
-        if (res.ok) {
-          loadProducts();
-        } else {
-          alert("Помилка видалення");
-        }
+      const p = await res.json();
+      document.getElementById("prodId").value = p.id;
+      document.getElementById("title_uk").value = p.title_uk || "";
+      document.getElementById("title_en").value = p.title_en || "";
+      document.getElementById("price").value = p.price || "";
+      document.getElementById("discount").value = p.discount || "";
+      document.getElementById("imgUrl").value = p.img || "";
+      document.getElementById("desc_uk").value = p.desc_uk || "";
+      document.getElementById("desc_en").value = p.desc_en || "";
+      document.getElementById("category").value = p.category || "";
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+    async function del(id) {
+      if (!confirm("Видалити товар?")) return;
+      const res = await fetch(API + "/products/" + id, {
+        method: "DELETE",
+        credentials: "include",
+      });
+      if (res.ok) {
+        loadProducts();
+      } else {
+        alert("Помилка видалення");
       }
-    </script>
-  </body>
+    }
+  </script>
+</body>
+
 </html>

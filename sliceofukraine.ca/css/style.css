@@ -948,9 +948,14 @@ footer {
 }
 
 /* Filter panel */
+.filter-wrapper {
+  position: relative;
+  height: auto;
+}
+
 .filter-panel {
   position: sticky;
-  top: 12px;
+  top: 100px; 
   z-index: 50;
   background: white;
   padding: 12px;

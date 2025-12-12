@@ -14,7 +14,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const checkoutModal = document.getElementById("checkoutModal");
   const checkoutForm = document.getElementById("checkoutForm");
   const checkoutClose = document.getElementById("checkoutClose");
-  const checkoutButton = document.getElementById("checkout-button");
 
   let cart = window.cart || [];
 
@@ -334,6 +333,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // checkout modal open/close
   if (checkoutBtn && checkoutModal) {
     checkoutBtn.addEventListener("click", () => {
+      if (!cart.length) {
+        alert("Кошик порожній");
+        return;
+      };
       checkoutModal.style.display = "flex";
     });
   }
