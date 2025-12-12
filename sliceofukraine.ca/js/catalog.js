@@ -442,3 +442,44 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const filterWrapper = document.querySelector(".filter-wrapper");
+  const searchInput = document.getElementById("searchInput");
+  const mobileToggle = document.querySelector(".filter-toggle-mobile");
+  const desktopJump = document.querySelector(".filter-jump-desktop");
+
+  function scrollToFilters() {
+    if (!filterWrapper) return;
+    const headerOffset = 80; // высота шапки
+    const rect = filterWrapper.getBoundingClientRect();
+    const targetTop = rect.top + window.scrollY - headerOffset;
+
+    window.scrollTo({
+      top: targetTop,
+      behavior: "smooth",
+    });
+
+    // немного подождём, пока скролл завершится, и дадим фокус в поиск
+    if (searchInput) {
+      setTimeout(() => {
+        searchInput.focus();
+      }, 400);
+    }
+  }
+
+  if (mobileToggle) {
+    mobileToggle.addEventListener("click", (e) => {
+      e.preventDefault();
+      scrollToFilters();
+    });
+  }
+
+  if (desktopJump) {
+    desktopJump.addEventListener("click", (e) => {
+      e.preventDefault();
+      scrollToFilters();
+    });
+  }
+});

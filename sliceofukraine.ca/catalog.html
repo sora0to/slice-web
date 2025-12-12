@@ -1,122 +1,164 @@
 <!DOCTYPE html>
 <html lang="uk">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Catalog — Slice of Ukraine</title>
+    <link rel="icon" type="image/svg+xml" href="img/download.svg" />
+    <link rel="icon" type="image/png" href="img/logo.png" sizes="32x32" />
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Catalog — Slice of Ukraine</title>
-  <link rel="icon" type="image/svg+xml" href="img/download.svg" />
-  <link rel="icon" type="image/png" href="img/logo.png" sizes="32x32" />
-  <link rel="stylesheet" href="css/normalize.css" />
-  <link rel="stylesheet" href="css/style.css" />
-</head>
-
-<body>
-  <header>
-    <div class="site-inner header-inner">
-      <a href="index.html">
-        <div class="logo">
-          <img src="img/vartical-llogo.svg" alt="" />
-          Slice of Ukraine
-        </div>
-      </a>
-
-      <nav id="nav" class="nav" aria-hidden="true">
-        <button class="nav-close" aria-label="Закрити меню">✕</button>
-        <a href="index.html#hero" data-uk="Головна" data-en="Home">Головна</a>
-        <a href="index.html#about" data-uk="Про нас" data-en="About us">Про нас</a>
-        <a href="catalog.html" data-uk="Каталог" data-en="Catalog">Каталог</a>
-        <a href="index.html#contacts" data-uk="Контакти" data-en="Contacts">Контакти</a>
-      </nav>
-
-      <button id="cartBtn" class="cart-btn" aria-label="Відкрити корзину" type="button">
-        🛒 <span id="cartCount">0</span>
-      </button>
-
-      <div class="header-controls">
-        <button id="lang-toggle" class="lang-toggle" aria-pressed="false">
-          EN
-        </button>
-        <button id="burger" class="burger" aria-label="Відкрити меню" aria-controls="nav" aria-expanded="false">
-          <span class="burger-line"></span>
-          <span class="burger-line"></span>
-          <span class="burger-line"></span>
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <main class="site" style="padding-top: 92px">
-    <section class="catalog" id="catalog-page">
-      <div class="inner catalog_inner" style="max-width: 1200px">
-        <div class="catalog_control_block"></div>
-        <h1 data-uk="Каталог товарів" data-en="Product Catalog">
-          Каталог товарів
-        </h1>
-        <div class="filter-wrapper">
-          <button class="filter-toggle-mobile">Фільтри ⌄</button>
-          <div class="filter-panel">
-            <div class="catalog-controls">
-              <input id="searchInput" type="search" placeholder="Пошук товарів..." data-uk="Пошук товарів..."
-                data-en="Search products..." aria-label="Search products" />
-
-              <select id="categorySelect" aria-label="Filter by category">
-                <option data-uk="Усі категорії" data-en="All categories" value="">
-                  Усі категорії
-                </option>
-              </select>
-              <select id="sortSelect" aria-label="Sort products">
-                <option value="default" data-uk="Сортування" data-en="Sorting">
-                  Сортування
-                </option>
-                <option value="price-asc" data-uk="Ціна ↑" data-en="Price ↑">
-                  Ціна ↑
-                </option>
-                <option value="price-desc" data-uk="Ціна ↓" data-en="Price ↓">
-                  Ціна ↓
-                </option>
-                <option value="title-asc" data-uk="Назва A→Z" data-en="Name A→Z">
-                  Назва A→Z
-                </option>
-                <option value="title-desc" data-uk="Назва Z→A" data-en="Name Z→A">
-                  Назва Z→A
-                </option>
-              </select>
-            </div>
+  <body>
+    <header>
+      <div class="site-inner header-inner">
+        <a href="index.html">
+          <div class="logo">
+            <img src="img/vartical-llogo.svg" alt="" />
+            Slice of Ukraine
           </div>
-        </div>
+        </a>
 
-        <div id="catalogGrid" class="products" aria-live="polite" style="margin-top: 8px">
-          <div class="loading">Завантаження...</div>
-        </div>
+        <nav id="nav" class="nav" aria-hidden="true">
+          <button class="nav-close" aria-label="Закрити меню">✕</button>
+          <a href="index.html#hero" data-uk="Головна" data-en="Home">Головна</a>
+          <a href="index.html#about" data-uk="Про нас" data-en="About us"
+            >Про нас</a
+          >
+          <a href="catalog.html" data-uk="Каталог" data-en="Catalog">Каталог</a>
+          <a href="index.html#contacts" data-uk="Контакти" data-en="Contacts"
+            >Контакти</a
+          >
+        </nav>
 
-        <div style="text-align: center; margin-top: 18px">
-          <button id="loadMoreBtn" class="btn-load-more" style="
-                padding: 10px 16px;
-                border-radius: 8px;
-                border: none;
-                background: var(--blue);
-                color: #fff;
-                cursor: pointer;
-              ">
-            Завантажити ще
+        <button
+          id="cartBtn"
+          class="cart-btn"
+          aria-label="Відкрити корзину"
+          type="button"
+        >
+          🛒 <span id="cartCount">0</span>
+        </button>
+
+        <div class="header-controls">
+          <button id="lang-toggle" class="lang-toggle" aria-pressed="false">
+            EN
+          </button>
+          <button
+            id="burger"
+            class="burger"
+            aria-label="Відкрити меню"
+            aria-controls="nav"
+            aria-expanded="false"
+          >
+            <span class="burger-line"></span>
+            <span class="burger-line"></span>
+            <span class="burger-line"></span>
           </button>
         </div>
       </div>
-    </section>
-  </main>
+    </header>
 
-  <!-- Product modal (details only) -->
-  <div id="productModal" class="product-modal" aria-hidden="true" role="dialog" aria-modal="true" style="display: none">
-    <div class="product-modal-inner" role="document" style="
+    <main class="site" style="padding-top: 92px">
+      <div class="filter-wrapper">
+        <button class="filter-toggle-mobile">Фільтри ⌄</button>
+        <div class="filter-panel">
+          <div class="catalog-controls">
+            <input
+              id="searchInput"
+              type="search"
+              placeholder="Пошук товарів..."
+              data-uk="Пошук товарів..."
+              data-en="Search products..."
+              aria-label="Search products"
+            />
+
+            <select id="categorySelect" aria-label="Filter by category">
+              <option data-uk="Усі категорії" data-en="All categories" value="">
+                Усі категорії
+              </option>
+            </select>
+            <select id="sortSelect" aria-label="Sort products">
+              <option value="default" data-uk="Сортування" data-en="Sorting">
+                Сортування
+              </option>
+              <option value="price-asc" data-uk="Ціна ↑" data-en="Price ↑">
+                Ціна ↑
+              </option>
+              <option value="price-desc" data-uk="Ціна ↓" data-en="Price ↓">
+                Ціна ↓
+              </option>
+              <option value="title-asc" data-uk="Назва A→Z" data-en="Name A→Z">
+                Назва A→Z
+              </option>
+              <option value="title-desc" data-uk="Назва Z→A" data-en="Name Z→A">
+                Назва Z→A
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <section class="catalog" id="catalog-page">
+        <div class="inner catalog_inner" style="max-width: 1200px">
+            <h1 data-uk="Каталог товарів" data-en="Product Catalog">
+              Каталог товарів
+            </h1>
+
+            <div
+              id="catalogGrid"
+              class="products"
+              aria-live="polite"
+              style="margin-top: 8px"
+            >
+              <div class="loading">Завантаження...</div>
+            </div>
+
+            <div style="text-align: center; margin-top: 18px">
+              <button
+                id="loadMoreBtn"
+                class="btn-load-more"
+                style="
+                  padding: 10px 16px;
+                  border-radius: 8px;
+                  border: none;
+                  background: var(--blue);
+                  color: #fff;
+                  cursor: pointer;
+                "
+              >
+                Завантажити ще
+              </button>
+            </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Product modal (details only) -->
+    <div
+      id="productModal"
+      class="product-modal"
+      aria-hidden="true"
+      role="dialog"
+      aria-modal="true"
+      style="display: none"
+    >
+      <div
+        class="product-modal-inner"
+        role="document"
+        style="
           background: #fff;
           max-width: 920px;
           margin: 40px auto;
           border-radius: 12px;
           overflow: hidden;
           box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
-        ">
-      <button id="modalClose" aria-label="Close" style="
+        "
+      >
+        <button
+          id="modalClose"
+          aria-label="Close"
+          style="
             position: absolute;
             right: 12px;
             top: 12px;
@@ -124,21 +166,27 @@
             border: none;
             font-size: 22px;
             cursor: pointer;
-          ">
-        ✕
-      </button>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0">
-        <div style="
+          "
+        >
+          ✕
+        </button>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0">
+          <div
+            style="
               min-height: 320px;
               background-size: cover;
               background-position: center;
-            " id="modalImage"></div>
-        <div style="padding: 18px">
-          <h3 id="modalTitle"></h3>
-          <p id="modalDesc"></p>
-          <p id="modalPrice" style="font-weight: 700; margin-top: 12px"></p>
-          <div style="margin-top: 18px">
-            <button id="modalCloseBtn" style="
+            "
+            id="modalImage"
+          ></div>
+          <div style="padding: 18px">
+            <h3 id="modalTitle"></h3>
+            <p id="modalDesc"></p>
+            <p id="modalPrice" style="font-weight: 700; margin-top: 12px"></p>
+            <div style="margin-top: 18px">
+              <button
+                id="modalCloseBtn"
+                style="
                   padding: 10px 14px;
                   margin-bottom: 20px;
                   margin-right: 10px;
@@ -148,73 +196,87 @@
                   color: #00306a;
                   font-weight: 700;
                   cursor: pointer;
-                ">
-              Закрити
-            </button>
+                "
+              >
+                Закрити
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Cart modal -->
-  <div id="cartModal" class="cart-modal" aria-hidden="true" style="display: none">
-    <div class="cart-inner" role="dialog" aria-modal="true">
-      <button id="cartClose" class="cart-close" aria-label="Закрити корзину">
-        ✕
-      </button>
-      <h2 data-uk="Кошик" data-en="Cart">Кошик</h2>
-      <div id="cartItems" class="cart-items"></div>
-      <div class="cart-footer">
-        <p id="cartTotal" data-uk="Разом: 0 $" data-en="Together: 0 $">
-          Разом: 0 ₴
-        </p>
-        <button id="checkoutBtn" class="checkout-btn" data-uk="Оформити замовлення" data-en="Place an order">
-          Оформити замовлення
+    <!-- Cart modal -->
+    <div
+      id="cartModal"
+      class="cart-modal"
+      aria-hidden="true"
+      style="display: none"
+    >
+      <div class="cart-inner" role="dialog" aria-modal="true">
+        <button id="cartClose" class="cart-close" aria-label="Закрити корзину">
+          ✕
         </button>
+        <h2 data-uk="Кошик" data-en="Cart">Кошик</h2>
+        <div id="cartItems" class="cart-items"></div>
+        <div class="cart-footer">
+          <p id="cartTotal" data-uk="Разом: 0 $" data-en="Together: 0 $">
+            Разом: 0 ₴
+          </p>
+          <button
+            id="checkoutBtn"
+            class="checkout-btn"
+            data-uk="Оформити замовлення"
+            data-en="Place an order"
+          >
+            Оформити замовлення
+          </button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Checkout Modal -->
-  <div id="checkoutModal" class="checkout-modal" style="display: none">
-    <div class="checkout-inner">
-      <button id="checkoutClose" class="checkout-close">✕</button>
-      <h2>Оформлення замовлення</h2>
+    <!-- Checkout Modal -->
+    <div id="checkoutModal" class="checkout-modal" style="display: none">
+      <div class="checkout-inner">
+        <button id="checkoutClose" class="checkout-close">✕</button>
+        <h2>Оформлення замовлення</h2>
 
-      <form id="checkoutForm">
-        <label>
-          Ім'я:
-          <input type="text" name="name" required />
-        </label>
+        <form id="checkoutForm">
+          <label>
+            Ім'я:
+            <input type="text" name="name" required />
+          </label>
 
-        <label>
-          Адреса:
-          <input type="text" name="address" required />
-        </label>
+          <label>
+            Адреса:
+            <input type="text" name="address" required />
+          </label>
 
-        <label>
-          Email:
-          <input type="email" name="email" required />
-        </label>
+          <label>
+            Email:
+            <input type="email" name="email" required />
+          </label>
 
-        <button id="checkout-button" type="submit" class="checkout-submit">
-          Відправити замовлення
-        </button>
-      </form>
+          <button id="checkout-button" type="submit" class="checkout-submit">
+            Відправити замовлення
+          </button>
+        </form>
+      </div>
     </div>
-  </div>
 
-  <footer style="margin-top: 40px">
-    <div class="site-inner">
-      <p>&copy; 2025 Slice of Ukraine</p>
-      <p>Made with ♥ by Sora0t0</p>
-    </div>
-  </footer>
+    <footer style="margin-top: 40px">
+      <div class="site-inner">
+        <p>&copy; 2025 Slice of Ukraine</p>
+        <p>Made with ♥ by Sora0t0</p>
+      </div>
+    </footer>
 
-  <script src="js/cart.js"></script>
-  <script src="js/catalog.js"></script>
-  <button id="toTop" class="to-top" aria-label="Back to top">↑</button>
-</body>
+    <!-- Кнопка к фильтрам для десктопа -->
+    <button type="button" class="filter-jump-desktop" aria-label="Перейти до фільтрів">
+      До фільтрів ↑
+    </button>
 
+    <script src="js/cart.js"></script>
+    <script src="js/catalog.js"></script>
+  </body>
 </html>
