@@ -20,9 +20,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // helpers
   function priceToNumber(val) {
     if (val === undefined || val === null) return 0;
-    const s = String(val);
-    const n = parseFloat(s.replace(/[^0-9.\-]+/g, "")) || 0;
-    return n;
+    const s = String(val).replace(",", ".");
+    const matches = s.match(/-?\d+(\.\d+)?/g);
+    if (!matches || !matches.length) return 0;
+    const n = parseFloat(matches[matches.length - 1]);
+    return Number.isFinite(n) ? n : 0;
   }
 
   function detectCurrencySymbol(text) {

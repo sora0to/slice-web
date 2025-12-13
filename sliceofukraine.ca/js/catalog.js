@@ -124,14 +124,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Price HTML
     let priceHtml = "";
+
+
+
     if (hasDiscount) {
       priceHtml = `
         <p class="price">
-          <span class="old-price">${esc(p.price)} ₴</span>
-          <span class="new-price">${esc(p.discount)} ₴</span>
+          <span class="old-price">${esc(p.price)} $</span>
+          <span class="new-price">${esc(p.discount)} $</span>
         </p>`;
     } else {
-      priceHtml = `<p class="price">${esc(p.price)} ₴</p>`;
+      priceHtml = `<p class="price">${esc(p.price)} $</p>`;
     }
 
     div.innerHTML = `
