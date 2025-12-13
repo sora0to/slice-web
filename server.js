@@ -34,6 +34,10 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
+// Simple in-memory order tracking for Stripe sessions
+const pendingOrders = new Map();
+const completedOrders = new Map();
+
 // --- Middleware ---
 // CORS: allow credentials (cookies) — in production set specific origin
 app.use(cors({ origin: true, credentials: true }));
@@ -72,6 +76,117 @@ async function writeCatalog(arr) {
   await fs.writeFile(CATALOG_PATH, JSON.stringify(arr, null, 2), 'utf8');
 }
 
+function toNumber(val) {
+  if (typeof val === 'number' && Number.isFinite(val)) return val;
+  const num = parseFloat(String(val || '').replace(/[^0-9.,-]+/g, '').replace(',', '.'));
+  return Number.isFinite(num) ? num : 0;
+}
+
+function formatCurrency(amount, currencyCode) {
+  const code = (currencyCode || process.env.STRIPE_CURRENCY || 'CAD').toUpperCase();
+  const value = Number(amount) || 0;
+  return `${value.toFixed(2)} ${code}`;
+}
+
+function htmlEscape(str) {
+  return String(str || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function buildItemsTable(items, currency) {
+  if (!Array.isArray(items) || !items.length) return '<p>Кошик порожній</p>';
+  const rows = items
+    .map((item, idx) => {
+      const qty = Number(item.quantity) || 1;
+      const price = Number(item.price) || 0;
+      const lineTotal = price * qty;
+      return `
+        <tr>
+          <td style="padding:6px;border:1px solid #ddd;text-align:center">${idx + 1}</td>
+          <td style="padding:6px;border:1px solid #ddd">${htmlEscape(item.name || 'Product')}</td>
+          <td style="padding:6px;border:1px solid #ddd;text-align:center">${qty}</td>
+          <td style="padding:6px;border:1px solid #ddd;text-align:right">${formatCurrency(price, currency)}</td>
+          <td style="padding:6px;border:1px solid #ddd;text-align:right">${formatCurrency(lineTotal, currency)}</td>
+        </tr>
+      `;
+    })
+    .join('');
+  return `
+    <table style="border-collapse:collapse;width:100%;margin-top:10px">
+      <thead>
+        <tr>
+          <th style="padding:6px;border:1px solid #ddd">#</th>
+          <th style="padding:6px;border:1px solid #ddd;text-align:left">Товар</th>
+          <th style="padding:6px;border:1px solid #ddd;text-align:center">К-сть</th>
+          <th style="padding:6px;border:1px solid #ddd;text-align:right">Ціна</th>
+          <th style="padding:6px;border:1px solid #ddd;text-align:right">Разом</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+  `;
+}
+
+function normalizeStripeLineItems(lineItems) {
+  if (!Array.isArray(lineItems)) return [];
+  return lineItems
+    .map((li) => {
+      const qty = Number(li?.quantity) || 1;
+      const totalCents =
+        typeof li?.amount_total === 'number'
+          ? li.amount_total
+          : typeof li?.amount_subtotal === 'number'
+          ? li.amount_subtotal
+          : Number(li?.price?.unit_amount) * qty || 0;
+      const total = totalCents / 100;
+      const unitPrice = qty ? total / qty : total;
+      return {
+        name: li?.description || li?.price?.nickname || 'Product',
+        quantity: qty,
+        price: unitPrice,
+      };
+    })
+    .filter((item) => item.price > 0 && item.quantity > 0);
+}
+
+async function sendOrderEmail(order, sessionId) {
+  const user = process.env.EMAIL_USER;
+  const pass = process.env.EMAIL_PASS;
+  if (!user || !pass) throw new Error('Email credentials are not configured');
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: { user, pass }
+  });
+
+  const currency = (order && order.currency) || process.env.STRIPE_CURRENCY || 'CAD';
+  const itemsHtml = buildItemsTable(order?.items, currency);
+  const totalText = formatCurrency(order?.total, currency);
+
+  const html = `
+    <div style="font-family: Arial; padding:20px;">
+      <h2>Нове замовлення — Slice of Ukraine</h2>
+      ${sessionId ? `<p><b>Stripe Session:</b> ${htmlEscape(sessionId)}</p>` : ''}
+      <p><b>Ім'я:</b> ${htmlEscape(order?.customer?.name || '')}</p>
+      <p><b>Email:</b> ${htmlEscape(order?.customer?.email || '')}</p>
+      <p><b>Адреса:</b> ${htmlEscape(order?.customer?.address || '')}</p>
+      ${itemsHtml}
+      <p style="font-size:16px;margin-top:10px;"><b>Сума:</b> ${totalText}</p>
+    </div>
+  `;
+
+  await transporter.sendMail({
+    from: user,
+    to: process.env.EMAIL_RECEIVER || user,
+    subject: `Нове замовлення від ${order?.customer?.name || 'клієнта'}`,
+    html
+  });
+}
+
 // ---- Public routes (site) ----
 app.get('/', (req, res) => {
   res.sendFile(path.join(SITE_DIR, 'index.html'));
@@ -83,31 +198,80 @@ app.post('/create-checkout-session', async (req, res) => {
   if (!stripe) return res.status(500).json({ error: 'Stripe not configured' });
 
   try {
-    const { items } = req.body;
+    const { items, customer } = req.body || {};
     if (!Array.isArray(items) || items.length === 0) {
       return res.status(400).json({ error: 'No items provided' });
     }
 
-    const lineItems = items.map(item => ({
-      price_data: {
-        currency: process.env.STRIPE_CURRENCY || 'cad',
-        product_data: { name: item.name },
-        unit_amount: Math.round(Number(item.price) * 100),
-      },
-      quantity: item.quantity || 1
-    }));
+    const stripeCurrencySetting = (process.env.STRIPE_CURRENCY || 'cad');
+    const stripeCurrency = stripeCurrencySetting.toLowerCase();
+    const displayCurrency = stripeCurrencySetting.toUpperCase();
+    const normalizedItems = [];
+
+    const lineItems = items
+      .map(item => {
+        const name = (item && item.name ? String(item.name) : 'Item').slice(0, 127);
+        const price = toNumber(item && (item.price ?? item.amount));
+        const quantity = Number.isFinite(Number(item && item.quantity))
+          ? Math.max(1, parseInt(item.quantity, 10) || 1)
+          : 1;
+        if (!Number.isFinite(price) || price <= 0) return null;
+        normalizedItems.push({ name, price, quantity });
+        return {
+          price_data: {
+            currency: stripeCurrency,
+            product_data: { name },
+            unit_amount: Math.round(price * 100),
+          },
+          quantity,
+        };
+      })
+      .filter(Boolean);
+
+    if (!lineItems.length) {
+      return res.status(400).json({ error: 'Invalid line items' });
+    }
 
     const origin = req.get('origin') || `http://localhost:${PORT}`;
-    const successUrl = process.env.SUCCESS_URL || `${origin}/success.html`;
+    const successUrl =
+      process.env.SUCCESS_URL || `${origin}/success.html?session_id={CHECKOUT_SESSION_ID}`;
     const cancelUrl = process.env.CANCEL_URL || `${origin}/cancel.html`;
+    const successWithSession = successUrl.includes('{CHECKOUT_SESSION_ID}')
+      ? successUrl
+      : `${successUrl}?session_id={CHECKOUT_SESSION_ID}`;
+
+    const customerEmail = customer?.email ? String(customer.email).trim() : undefined;
+    const metadata = {};
+    if (customer?.name) metadata.customer_name = String(customer.name).trim().slice(0, 500);
+    if (customer?.address) metadata.customer_address = String(customer.address).trim().slice(0, 500);
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       mode: 'payment',
       line_items: lineItems,
-      success_url: successUrl,
-      cancel_url: cancelUrl
+      success_url: successWithSession,
+      cancel_url: cancelUrl,
+      customer_email: customerEmail || undefined,
+      metadata: Object.keys(metadata).length ? metadata : undefined,
     });
+
+    if (normalizedItems.length) {
+      const orderTotal = normalizedItems.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0
+      );
+      pendingOrders.set(session.id, {
+        customer: {
+          name: (customer?.name || '').trim(),
+          email: customerEmail || '',
+          address: (customer?.address || '').trim(),
+        },
+        items: normalizedItems,
+        currency: displayCurrency,
+        total: orderTotal,
+        createdAt: Date.now(),
+      });
+    }
 
     res.json({ url: session.url });
   } catch (err) {
@@ -140,44 +304,137 @@ app.post('/webhook', bodyParser.raw({ type: 'application/json' }), (req, res) =>
   }
 });
 
+// ---- Confirm order after successful Stripe checkout ----
+app.post('/order/confirm', async (req, res) => {
+  if (!stripe) return res.status(500).json({ success: false, error: 'Stripe not configured' });
+  const { session_id: sessionId } = req.body || {};
+  if (!sessionId) {
+    return res.status(400).json({ success: false, error: 'session_id is required' });
+  }
+
+  try {
+    const session = await stripe.checkout.sessions.retrieve(sessionId);
+    if (!session) {
+      return res.status(404).json({ success: false, error: 'Session not found' });
+    }
+    if (session.payment_status !== 'paid') {
+      return res.status(400).json({ success: false, error: 'Payment not completed yet' });
+    }
+
+    let orderData = completedOrders.get(sessionId) || pendingOrders.get(sessionId);
+    if (!orderData) {
+      const lineItemsResp = await stripe.checkout.sessions.listLineItems(sessionId, { limit: 100 });
+      const normalized = normalizeStripeLineItems(lineItemsResp?.data || []);
+      orderData = {
+        customer: {
+          name:
+            session.metadata?.customer_name ||
+            session.customer_details?.name ||
+            '',
+          email:
+            session.customer_details?.email ||
+            session.customer_email ||
+            '',
+          address:
+            session.metadata?.customer_address ||
+            session.customer_details?.address?.line1 ||
+            '',
+        },
+        items: normalized,
+        currency: (session.currency || process.env.STRIPE_CURRENCY || 'CAD').toUpperCase(),
+        total:
+          typeof session.amount_total === 'number'
+            ? session.amount_total / 100
+            : normalized.reduce((sum, item) => sum + item.price * item.quantity, 0),
+      };
+    } else {
+      orderData = {
+        ...orderData,
+        customer: {
+          name:
+            orderData.customer?.name ||
+            session.metadata?.customer_name ||
+            session.customer_details?.name ||
+            '',
+          email:
+            orderData.customer?.email ||
+            session.customer_details?.email ||
+            session.customer_email ||
+            '',
+          address:
+            orderData.customer?.address ||
+            session.metadata?.customer_address ||
+            session.customer_details?.address?.line1 ||
+            '',
+        },
+        currency: (session.currency || orderData.currency || process.env.STRIPE_CURRENCY || 'CAD').toUpperCase(),
+        total:
+          typeof session.amount_total === 'number'
+            ? session.amount_total / 100
+            : orderData.total,
+      };
+    }
+
+    if (!completedOrders.has(sessionId)) {
+      await sendOrderEmail(orderData, sessionId);
+      completedOrders.set(sessionId, orderData);
+      pendingOrders.delete(sessionId);
+    }
+
+    res.json({ success: true, order: completedOrders.get(sessionId) || orderData });
+  } catch (err) {
+    console.error('Order confirm error:', err);
+    res.status(500).json({ success: false, error: err.message || 'Order confirmation failed' });
+  }
+});
+
 // ---- EMAIL order endpoint ----
 app.post('/order', async (req, res) => {
   const { name, address, email, cart, total } = req.body || {};
 
-  if (!name || !email || !cart || !total) {
+  if (!name || !email || !cart) {
     return res.status(400).json({ success: false, error: 'Invalid input' });
   }
 
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS
-    }
-  });
+  let parsedCart = [];
+  try {
+    parsedCart =
+      typeof cart === 'string'
+        ? JSON.parse(cart)
+        : Array.isArray(cart)
+        ? cart
+        : [];
+  } catch {
+    parsedCart = [];
+  }
 
-  const html = `
-    <div style="font-family: Arial; padding:20px;">
-      <h2>Нове замовлення — Slice of Ukraine</h2>
-      <p><b>Ім'я:</b> ${name}</p>
-      <p><b>Email:</b> ${email}</p>
-      <p><b>Адреса:</b> ${address}</p>
-      <h3>Кошик:</h3>
-      <pre style="background:#f5f5f5;padding:10px;border-radius:6px;">
-${JSON.stringify(cart, null, 2)}
-      </pre>
-      <p><b>Сума:</b> ${total}</p>
-    </div>
-  `;
+  const normalized = (Array.isArray(parsedCart) ? parsedCart : [])
+    .map((item) => {
+      const qty = Number(item?.qty || item?.quantity || 1) || 1;
+      const price = toNumber(item?.price || item?.amount || 0);
+      const name = item?.title || item?.name || 'Product';
+      if (!qty || !price) return null;
+      return { name, quantity: qty, price };
+    })
+    .filter(Boolean);
+
+  if (!normalized.length && total) {
+    normalized.push({
+      name: 'Order total',
+      quantity: 1,
+      price: toNumber(total),
+    });
+  }
+
+  const orderData = {
+    customer: { name, address, email },
+    items: normalized,
+    currency: (process.env.STRIPE_CURRENCY || 'CAD').toUpperCase(),
+    total: normalized.reduce((sum, item) => sum + item.price * item.quantity, 0),
+  };
 
   try {
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_RECEIVER || process.env.EMAIL_USER,
-      subject: `Нове замовлення від ${name}`,
-      html
-    });
-
+    await sendOrderEmail(orderData, 'manual');
     res.json({ success: true });
   } catch (err) {
     console.error('Mail error:', err);
