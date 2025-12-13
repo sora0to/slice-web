@@ -5,12 +5,210 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Оплата успішна</title>
+    <style>
+        :root {
+            --bg: #f3f6f8;
+            --card-bg: #fff;
+            --accent: #2c8f57;
+            --accent-light: #dff5e9;
+            --text: #1f2933;
+            --muted: #5f6c7b;
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg);
+            color: var(--text);
+            padding: 24px;
+        }
+        .container {
+            width: 100%;
+            max-width: 860px;
+            background: var(--card-bg);
+            border-radius: 22px;
+            box-shadow: 0 20px 50px rgba(15, 23, 42, 0.12);
+            padding: 48px;
+            position: relative;
+        }
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 999px;
+            background: var(--accent-light);
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 14px;
+        }
+        h1 {
+            margin: 18px 0 8px;
+            font-size: 32px;
+        }
+        #statusText {
+            color: var(--muted);
+            margin-bottom: 28px;
+        }
+        #orderSummary {
+            display: none;
+            margin-top: 24px;
+        }
+        #customerInfo p {
+            margin: 4px 0;
+            color: var(--muted);
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 12px;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid #e5e9f0;
+        }
+        th {
+            text-align: left;
+            background: #f2f5f8;
+            font-weight: 600;
+        }
+        th, td {
+            padding: 12px 14px;
+            border-bottom: 1px solid #e5e9f0;
+            font-size: 15px;
+        }
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+        #orderTotal {
+            font-size: 20px;
+            font-weight: 700;
+            margin-top: 18px;
+        }
+        .actions {
+            margin-top: 32px;
+        }
+        .actions a {
+            padding: 12px 20px;
+            border-radius: 999px;
+            border: 1px solid transparent;
+            background: var(--accent);
+            color: #fff;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 10px 30px rgba(44, 143, 87, 0.3);
+        }
+        .actions a:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 14px 35px rgba(44, 143, 87, 0.32);
+        }
+        @media (max-width: 640px) {
+            .container {
+                padding: 28px;
+            }
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Оплата успішна</h1>
-    <p>Дякую! Повернення до сайту.</p>
-    <a href="./index.html">Головна</a>
+    <div class="container">
+        <div class="badge">✅ Оплата успішна</div>
+        <h1>Дякуємо за замовлення!</h1>
+        <p id="statusText">Перевіряємо ваше замовлення...</p>
+
+        <div id="orderSummary">
+            <h2>Ваше замовлення</h2>
+            <div id="customerInfo" style="margin-bottom:12px;"></div>
+            <div style="overflow-x:auto;">
+                <table id="orderItems">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Товар</th>
+                            <th style="text-align:center;">К-сть</th>
+                            <th style="text-align:right;">Ціна</th>
+                            <th style="text-align:right;">Разом</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <p id="orderTotal"></p>
+        </div>
+
+        <div class="actions">
+            <a href="./index.html">Повернутися на головну</a>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            const params = new URLSearchParams(window.location.search);
+            const sessionId = params.get('session_id');
+            const statusText = document.getElementById('statusText');
+            const summaryBlock = document.getElementById('orderSummary');
+            const itemsBody = document.querySelector('#orderItems tbody');
+            const totalEl = document.getElementById('orderTotal');
+            const customerInfo = document.getElementById('customerInfo');
+
+            if (!sessionId) {
+                statusText.textContent = 'Не вдалося знайти ідентифікатор платежу.';
+                return;
+            }
+
+            fetch('/order/confirm', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ session_id: sessionId })
+            })
+                .then((resp) => resp.json())
+                .then((data) => {
+                    if (!data.success) throw new Error(data.error || 'Не вдалося підтвердити замовлення');
+                    const order = data.order || {};
+                    const customer = order.customer || {};
+                    const items = Array.isArray(order.items) ? order.items : [];
+                    statusText.textContent = 'Дякуємо! Ваше замовлення підтверджено.';
+                    summaryBlock.style.display = 'block';
+
+                    const currency = order.currency || 'CAD';
+                    customerInfo.innerHTML = `
+                        <p><b>Ім'я:</b> ${customer.name || ''}</p>
+                        <p><b>Email:</b> ${customer.email || ''}</p>
+                        <p><b>Адреса:</b> ${customer.address || ''}</p>
+                    `;
+
+                    itemsBody.innerHTML = items
+                        .map((item, idx) => {
+                            const qty = Number(item.quantity) || 1;
+                            const price = Number(item.price) || 0;
+                            const lineTotal = price * qty;
+                            return `
+                                <tr>
+                                    <td style="border:1px solid #ddd;padding:6px;text-align:center;">${idx + 1}</td>
+                                    <td style="border:1px solid #ddd;padding:6px;">${item.name || 'Product'}</td>
+                                    <td style="border:1px solid #ddd;padding:6px;text-align:center;">${qty}</td>
+                                    <td style="border:1px solid #ddd;padding:6px;text-align:right;">${price.toFixed(2)} ${currency}</td>
+                                    <td style="border:1px solid #ddd;padding:6px;text-align:right;">${lineTotal.toFixed(2)} ${currency}</td>
+                                </tr>
+                            `;
+                        })
+                        .join('');
+
+                    totalEl.textContent = `Всього: ${(Number(order.total) || 0).toFixed(2)} ${currency}`;
+                })
+                .catch((err) => {
+                    console.error(err);
+                    statusText.textContent = err.message || 'Сталася помилка при підтвердженні платежу.';
+                });
+        })();
+    </script>
 </body>
 
 </html>

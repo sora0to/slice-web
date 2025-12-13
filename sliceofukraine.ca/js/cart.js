@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const checkoutModal = document.getElementById("checkoutModal");
   const checkoutForm = document.getElementById("checkoutForm");
   const checkoutClose = document.getElementById("checkoutClose");
+  const checkoutSubmitBtn = document.getElementById("checkout-button");
 
   let cart = window.cart || [];
 
@@ -40,6 +41,46 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (e) {
       console.warn(e);
     }
+  }
+
+  async function createStripeCheckoutSession(customerInfo, cartItems) {
+    const items = cartItems
+      .map((item) => {
+        const price = priceToNumber(item.price);
+        if (!price) return null;
+        return {
+          name: item.title || "Product",
+          price,
+          quantity: item.qty || 1,
+        };
+      })
+      .filter(Boolean);
+
+    if (!items.length) {
+      throw new Error("Кошик порожній");
+    }
+
+    const payload = {
+      items,
+      customer: {
+        name: customerInfo?.name || "",
+        address: customerInfo?.address || "",
+        email: customerInfo?.email || "",
+      },
+    };
+
+    const resp = await fetch("/create-checkout-session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await resp.json().catch(() => ({}));
+    if (!resp.ok || !data?.url) {
+      const message = data?.error || "Не вдалося розпочати оплату Stripe.";
+      throw new Error(message);
+    }
+    return data.url;
   }
 
   function loadCart() {
@@ -401,34 +442,31 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       const formData = new FormData(checkoutForm);
-      const data = {
-        name: formData.get("name"),
-        address: formData.get("address"),
-        email: formData.get("email"),
-        cart: JSON.stringify(currentCart, null, 2),
-        total: cartTotalEl ? cartTotalEl.textContent : "",
+      const customerInfo = {
+        name: String(formData.get("name") || "").trim(),
+        address: String(formData.get("address") || "").trim(),
+        email: String(formData.get("email") || "").trim(),
       };
 
-      try {
-        const resp = await fetch("/order", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-        });
+      const submitBtn =
+        checkoutSubmitBtn || checkoutForm.querySelector(".checkout-submit");
+      const prevText = submitBtn ? submitBtn.textContent : "";
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Перехід до Stripe...";
+      }
 
-        const json = await resp.json();
-        if (json && json.success) {
-          alert("Дякуємо! Замовлення відправлено.");
-          cart = [];
-          updateCartUI();
-          checkoutModal.style.display = "none";
-        } else {
-          console.error("Order error:", json);
-          alert("Помилка при відправці замовлення.");
-        }
+      try {
+        const url = await createStripeCheckoutSession(customerInfo, currentCart);
+        window.location.href = url;
       } catch (err) {
-        console.error("Fetch /order error:", err);
-        alert("Помилка при відправці замовлення.");
+        console.error("Stripe checkout error:", err);
+        alert(err?.message || "Не вдалося розпочати оплату.");
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = prevText || "Відправити замовлення";
+        }
       }
     });
   }
