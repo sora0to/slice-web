@@ -323,9 +323,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (prod.discount && prod.discount !== "" && prod.discount !== "0") {
       modalPrice.innerHTML = `<span class="old-price">${esc(
         prod.price
-      )} ₴</span> <span class="new-price">${esc(prod.discount)} ₴</span>`;
+      )} $</span> <span class="new-price">${esc(prod.discount)} $</span>`;
     } else {
-      modalPrice.textContent = `${esc(prod.price)} ₴`;
+      modalPrice.textContent = `${esc(prod.price)} $`;
     }
 
     productModal.style.display = "block";
