@@ -404,10 +404,26 @@ document.addEventListener("DOMContentLoaded", () => {
     if (addBtn) {
       if (addBtn.id === "modalAddBtn") {
         addToCartFromModal();
+        addBtn.animate(
+          [
+            { transform: "scale(1)" },
+            { transform: "scale(1.08)" },
+            { transform: "scale(1)" },
+          ],
+          { duration: 260, easing: "ease-out" }
+        );
         return;
       }
       const id = addBtn.dataset?.id;
       if (id) addToCartById(id);
+      addBtn.animate(
+        [
+          { transform: "scale(1)" },
+          { transform: "scale(1.08)" },
+          { transform: "scale(1)" },
+        ],
+        { duration: 260, easing: "ease-out" }
+      );
       return;
     }
 
